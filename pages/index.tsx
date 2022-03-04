@@ -8,7 +8,6 @@ const Home: NextPage = () => {
     <div className="bg-slate-300 py-28 px-60 flex flex-col space-y-5">
       <ClacResult />
       <UserProfile />
-      <div className="bg-white py-9 px-5 rounded-lg shadow-xl"></div>
       <div className="bg-white py-9 px-36 rounded-lg shadow-xl"></div>
       <div className="bg-white py-9 px-36 rounded-lg shadow-xl"></div>
     </div>

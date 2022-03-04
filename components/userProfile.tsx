@@ -1,7 +1,7 @@
 export default function UserProfile() {
   return (
     <div className="bg-white overflow-hidden rounded-3xl shadow-xl flex flex-col h-60 w-96">
-      <div className="pt-10 pb-14 bg-sky-400 px-7 flex justify-between">
+      <div className="pt-10 pb-14 bg-sky-400 px-7 flex justify-between shadow-2xl">
         <span>Profile</span>
         <span></span>
       </div>

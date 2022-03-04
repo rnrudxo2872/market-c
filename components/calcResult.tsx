@@ -19,8 +19,8 @@ export default function CalcResult() {
             <span className="font-bold">$970</span>
           </div>
         </div>
-        <div className="text-center bg-sky-400 rounded-2xl py-2 w-1/2 mx-auto cursor-pointer">
-          <span className="font-extrabold text-xl text-stone-100">
+        <div className="text-center bg-sky-400 rounded-2xl py-2 w-1/2 mx-auto cursor-pointer hover:bg-slate-400 transition-color duration-300">
+          <span className="font-extrabold text-xl text-stone-100 ">
             Checkout
           </span>
         </div>
