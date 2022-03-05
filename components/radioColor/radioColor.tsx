@@ -1,6 +1,7 @@
 import { MouseEvent, useRef, useState } from "react";
+import { RadioColorProps } from "./radioColor.interface";
 
-export default function RadioColor() {
+export default function RadioColor({ title, colors }: RadioColorProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [clickedColor, setClickedColor] = useState<string>("");
   const clickHandler = (event: MouseEvent<HTMLButtonElement>) => {
@@ -27,21 +28,14 @@ export default function RadioColor() {
 
   return (
     <div className="flex space-x-1" ref={rootRef}>
-      <button
-        data-color="indigo-400"
-        className="rounded-full w-5 h-5 bg-indigo-400 ring-indigo-400 ring-offset-1 transition"
-        onClick={clickHandler}
-      />
-      <button
-        data-color="yellow-400"
-        className="rounded-full w-5 h-5 bg-yellow-200 ring-yellow-400 ring-offset-1 transition"
-        onClick={clickHandler}
-      />
-      <button
-        data-color="red-400"
-        className="rounded-full w-5 h-5 bg-red-400 ring-red-400 ring-offset-1 transition"
-        onClick={clickHandler}
-      />
+      {colors.map((color) => (
+        <button
+          key={`${title}-${color}`}
+          data-color={color}
+          className={`rounded-full w-5 h-5 bg-${color} ring-${color} ring-offset-1 transition`}
+          onClick={clickHandler}
+        ></button>
+      ))}
     </div>
   );
 }
