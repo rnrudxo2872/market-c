@@ -1,7 +1,11 @@
 import { MouseEvent, useRef, useState } from "react";
 import { RadioColorProps } from "./radioColor.interface";
 
-export default function RadioColor({ title, colors }: RadioColorProps) {
+export default function RadioColor({
+  title,
+  colors,
+  clickColorHandler,
+}: RadioColorProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [clickedColor, setClickedColor] = useState<string>("");
   const clickHandler = (event: MouseEvent<HTMLButtonElement>) => {
@@ -10,6 +14,7 @@ export default function RadioColor({ title, colors }: RadioColorProps) {
     } = event.currentTarget;
 
     if (color) {
+      clickColorHandler(color);
       setClickedColor(color);
     }
   };

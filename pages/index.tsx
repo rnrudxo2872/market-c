@@ -12,9 +12,14 @@ const Home: NextPage = () => {
       <div className="bg-white py-9 px-36 rounded-lg shadow-xl">
         <RadioColor
           title="test1"
-          colors={["indigo-400", "red-400", "sky-500"]}
+          colors={["yellow-400"]}
+          clickColorHandler={(cle) => {
+            console.log(cle);
+          }}
         ></RadioColor>
       </div>
+      <div className="bg-white py-9 px-36 rounded-lg shadow-xl"></div>
+      <div className="bg-white py-9 px-36 rounded-lg shadow-xl"></div>
       <div className="bg-white py-9 px-36 rounded-lg shadow-xl"></div>
     </div>
   );
