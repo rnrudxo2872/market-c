@@ -12,7 +12,38 @@ const Home: NextPage = () => {
       <div className="bg-white py-9 px-36 rounded-lg shadow-xl">
         <RadioColor
           title="test1"
-          colors={["yellow-400"]}
+          colors={[
+            {
+              color: "yellow-400",
+              bgColor: `bg-yellow-400`,
+              ringColor: `ring-yellow-400`,
+            },
+            {
+              color: "blue-400",
+              bgColor: "bg-blue-400",
+              ringColor: "ring-blue-400",
+            },
+            {
+              color: "slate-400",
+              bgColor: "bg-slate-400",
+              ringColor: "ring-slate-400",
+            },
+            {
+              color: "blck",
+              bgColor: `bg-black`,
+              ringColor: `ring-black`,
+            },
+            {
+              color: "indigo-400",
+              bgColor: "bg-indigo-400",
+              ringColor: "ring-indigo-400",
+            },
+            {
+              color: "red-400",
+              bgColor: "bg-red-400",
+              ringColor: "ring-red-400",
+            },
+          ]}
           clickColorHandler={(cle) => {
             console.log(cle);
           }}

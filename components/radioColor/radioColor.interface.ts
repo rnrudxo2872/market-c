@@ -1,5 +1,11 @@
 export interface RadioColorProps {
   title: string;
-  colors: string[];
+  colors: RaidoColor[];
   clickColorHandler: (clicked: string) => void;
+}
+
+export interface RaidoColor {
+  color: string;
+  bgColor: string;
+  ringColor: string;
 }

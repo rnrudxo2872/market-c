@@ -1,7 +1,7 @@
-import { MouseEvent, useRef, useState } from "react";
-import { RadioColorProps } from "./radioColor.interface";
+import { memo, MouseEvent, useEffect, useRef, useState } from "react";
+import { RadioColorProps, RaidoColor } from "./radioColor.interface";
 
-export default function RadioColor({
+export default memo(function RadioColor({
   title,
   colors,
   clickColorHandler,
@@ -19,28 +19,30 @@ export default function RadioColor({
     }
   };
 
-  if (clickedColor.length > 0) {
-    const children = rootRef.current
-      ?.children as HTMLCollectionOf<HTMLButtonElement>;
-    if (children) {
-      for (const element of children) {
-        element.dataset.color === clickedColor
-          ? element.classList.add("ring-2")
-          : element.classList.remove("ring-2");
+  useEffect(() => {
+    if (clickedColor.length) {
+      const children = rootRef.current
+        ?.children as HTMLCollectionOf<HTMLButtonElement>;
+      if (children) {
+        for (const element of children) {
+          element.dataset.color === clickedColor
+            ? element.classList.add("ring-2")
+            : element.classList.remove("ring-2");
+        }
       }
     }
-  }
+  }, [clickedColor]);
 
   return (
     <div className="flex space-x-1" ref={rootRef}>
-      {colors.map((color) => (
+      {colors.map(({ color, bgColor, ringColor }) => (
         <button
           key={`${title}-${color}`}
           data-color={color}
-          className={`rounded-full w-5 h-5 bg-${color} ring-${color} ring-offset-1 transition`}
+          className={`rounded-full w-5 h-5 ${bgColor} ${ringColor} ring-offset-1 transition`}
           onClick={clickHandler}
         ></button>
       ))}
     </div>
   );
-}
+});
