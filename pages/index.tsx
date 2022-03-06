@@ -58,7 +58,7 @@ const Home: NextPage = () => {
             <div className="flex flex-col space-y-4">
               <input
                 type="text"
-                className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 focus:outline-amber-500"
+                className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-all duration-300"
               />
               <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
                 Get login link
@@ -66,18 +66,23 @@ const Home: NextPage = () => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="space-y-2 mt-8">
             <div>
-              <span>Phone number</span>
+              <span className="font-semibold text-slate-500">Phone number</span>
             </div>
-            <div>
-              <div>
-                <div>
-                  <span>+82</span>
+            <div className="flex flex-col space-y-4">
+              <div className="flex flex-row-reverse">
+                <input
+                  type="text"
+                  className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg rounded-l-none py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-all duration-300"
+                />
+                <div className="bg-slate-200 flex items-center border border-gray-400 border-r-0 rounded-l-md peer-focus:ring-1 peer-focus:border-amber-500 ring-amber-500 transition-all duration-300">
+                  <span className="text-slate-500 font-semibold px-1">+82</span>
                 </div>
-                <input type="text" />
               </div>
-              <button>Get one-time password</button>
+              <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
+                Get one-time password
+              </button>
             </div>
           </div>
         )}
