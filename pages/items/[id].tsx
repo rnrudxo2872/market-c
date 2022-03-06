@@ -65,6 +65,28 @@ const Item: NextPage = () => {
           </button>
         </div>
       </section>
+      <section className="mt-4">
+        <h2 className="font-bold text-lg">비슷한 상품</h2>
+        <section className="grid grid-cols-2 gap-x-2 gap-y-4 mt-4">
+          {[1, 1, 1, 1, 1].map((_, index) => (
+            <div key={index} className="">
+              <section>
+                <div className="h-32 bg-slate-400" />
+              </section>
+              <section className="flex flex-col leading-none pt-2">
+                <span>Ultra Galaxy 20</span>
+                <span className="text-sm font-semibold">
+                  {Number.prototype.toLocaleString.call(12, "en-US", {
+                    currency: "USD",
+                    style: "currency",
+                    maximumFractionDigits: 0,
+                  })}
+                </span>
+              </section>
+            </div>
+          ))}
+        </section>
+      </section>
     </div>
   );
 };
