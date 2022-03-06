@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -10,7 +11,11 @@ const Home: NextPage = () => {
             className="flex border-b items-center border-stone-300 relative"
           >
             <section className="py-3 px-2">
-              <div className="w-20 h-20 rounded-md bg-slate-400"></div>
+              <Link href={`/items/${index}`}>
+                <a>
+                  <div className="w-20 h-20 rounded-md bg-slate-400"></div>
+                </a>
+              </Link>
             </section>
             <section className="ml-2">
               <div className="flex flex-col leading-[0.5em]">
