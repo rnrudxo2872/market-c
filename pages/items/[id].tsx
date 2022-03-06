@@ -44,7 +44,7 @@ const Item: NextPage = () => {
           </span>
         </div>
         <div className="flex py-4">
-          <button className="flex-1 bg-amber-400 text-stone-600 font-semibold text-sm py-2 rounded-md">
+          <button className="flex-1 bg-amber-400 text-stone-600 font-semibold text-sm py-2 rounded-md hover:bg-amber-500 hover:bg-opacity-80">
             판매자와 대화하기
           </button>
           <button className="px-4">
