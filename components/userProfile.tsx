@@ -1,3 +1,4 @@
+//https://dribbble.com/shots/15996385-Ecommerce-elements/attachments/7835152?mode=media
 export default function UserProfile() {
   return (
     <div className="bg-white overflow-hidden rounded-3xl shadow-xl flex flex-col h-60 w-96">

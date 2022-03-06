@@ -1,3 +1,4 @@
+//https://dribbble.com/shots/15996385-Ecommerce-elements/attachments/7835152?mode=media
 export default function CalcResult() {
   return (
     <div className="bg-white py-9 px-10 rounded-3xl shadow-xl">
