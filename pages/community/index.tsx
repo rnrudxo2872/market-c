@@ -8,13 +8,13 @@ const Community: NextPage = () => {
           key={index}
           className="flex flex-col border-b-4 border-gray-300 pt-4"
         >
-          <section className="px-4 border-b border-gray-300 pb-2">
-            <div className="flex mb-2">
+          <section className="border-b border-gray-300 pb-2">
+            <div className="flex mb-2 px-4">
               <span className="bg-slate-200 px-1 py-[0.15rem] rounded-md text-xs">
                 동네질문
               </span>
             </div>
-            <div className="mb-6 flex gap-x-1">
+            <div className="mb-6 flex gap-x-1 px-4">
               <span className="tracking-widest text-amber-600 text-opacity-80">
                 Q.
               </span>
@@ -23,7 +23,7 @@ const Community: NextPage = () => {
                 아시나요?ㅠㅜㅜ 다른맛 궁금해여
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between px-4">
               <div className="flex gap-1 text-sm text-gray-500">
                 <span>쿼카조아</span>
                 <span>•</span>
