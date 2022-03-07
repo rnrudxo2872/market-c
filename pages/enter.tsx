@@ -57,7 +57,7 @@ const Enter: NextPage = () => {
               {path === "email" ? "Email address" : "Phone number"}
             </label>
           </div>
-          <div className="flex flex-col space-y-4">
+          <form className="flex flex-col space-y-4">
             {path === "email" ? (
               <input
                 id="inputBox"
@@ -79,7 +79,7 @@ const Enter: NextPage = () => {
             <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
               {path === "email" ? "Get login link" : "Get one-time password"}
             </button>
-          </div>
+          </form>
         </div>
       </div>
       <div>
