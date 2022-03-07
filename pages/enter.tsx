@@ -48,29 +48,19 @@ const Enter: NextPage = () => {
             Phone
           </button>
         </div>
-        {path === "email" ? (
-          <div className="space-y-2 mt-8">
-            <div>
-              <span className="font-semibold text-slate-500">
-                Email address
-              </span>
-            </div>
-            <div className="flex flex-col space-y-4">
+        <div className="space-y-2 mt-8">
+          <div>
+            <span className="font-semibold text-slate-500">
+              {path === "email" ? "Email address" : "Phone number"}
+            </span>
+          </div>
+          <div className="flex flex-col space-y-4">
+            {path === "email" ? (
               <input
                 type="text"
                 className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-all duration-300"
               />
-              <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
-                Get login link
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-2 mt-8">
-            <div>
-              <span className="font-semibold text-slate-500">Phone number</span>
-            </div>
-            <div className="flex flex-col space-y-4">
+            ) : (
               <div className="flex flex-row-reverse">
                 <input
                   type="text"
@@ -80,12 +70,12 @@ const Enter: NextPage = () => {
                   <span className="text-slate-500 font-semibold px-1">+82</span>
                 </div>
               </div>
-              <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
-                Get one-time password
-              </button>
-            </div>
+            )}
+            <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-1 rounded-lg border-[1px] shadow-md">
+              {path === "email" ? "Get login link" : "Get one-time password"}
+            </button>
           </div>
-        )}
+        </div>
       </div>
       <div>
         <div className="flex items-center gap-1">
