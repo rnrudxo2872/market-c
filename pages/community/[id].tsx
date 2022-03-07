@@ -108,6 +108,16 @@ const CommunityPostDetail: NextPage = () => {
           </div>
         ))}
       </section>
+      <section className="flex flex-col gap-2 pb-4 px-4">
+        <textarea
+          id="description"
+          rows={3}
+          className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow ring-amber-500 transition-shadow duration-300 px-2"
+        />
+        <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-2 rounded-lg border-[1px] shadow-md">
+          댓글쓰기
+        </button>
+      </section>
     </div>
   );
 };
