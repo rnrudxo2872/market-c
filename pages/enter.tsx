@@ -50,19 +50,24 @@ const Enter: NextPage = () => {
         </div>
         <div className="space-y-2 mt-8">
           <div>
-            <span className="font-semibold text-slate-500">
+            <label
+              htmlFor="inputBox"
+              className="font-semibold text-slate-500 select-none"
+            >
               {path === "email" ? "Email address" : "Phone number"}
-            </span>
+            </label>
           </div>
           <div className="flex flex-col space-y-4">
             {path === "email" ? (
               <input
+                id="inputBox"
                 type="text"
                 className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-all duration-300"
               />
             ) : (
               <div className="flex flex-row-reverse">
                 <input
+                  id="inputBox"
                   type="text"
                   className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg rounded-l-none py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-all duration-300"
                 />
