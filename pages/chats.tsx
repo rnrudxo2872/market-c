@@ -2,11 +2,11 @@ import { NextPage } from "next";
 
 const Chats: NextPage = () => {
   return (
-    <div>
+    <div className="divide-y-[1px]">
       {[1, 1, 1, 1].map((_, index) => (
         <div
           key={index}
-          className="flex gap-2 pt-1 pb-2.5 px-4 items-center border-b border-gray-400 last:border-b-0"
+          className="flex gap-2 pt-1 pb-2.5 px-4 items-center border-gray-400"
         >
           <div className="w-10 h-10 rounded-full bg-gray-300" />
           <div className="flex flex-col flex-grow">
