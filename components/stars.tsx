@@ -4,6 +4,7 @@ export default function Stars({ fills }: { fills: number[] }) {
       {fills.map((fill, index) =>
         fill === 0.5 ? (
           <svg
+            key={`${index}`}
             viewBox="0 0 576 512"
             xmlns="http://www.w3.org/2000/svg"
             className="text-yellow-400 h-4 w-4"
@@ -14,6 +15,7 @@ export default function Stars({ fills }: { fills: number[] }) {
           </svg>
         ) : fill === 0 ? null : (
           <svg
+            key={`${index}`}
             viewBox="0 0 576 512"
             xmlns="http://www.w3.org/2000/svg"
             className="text-yellow-400 h-4 w-4"
