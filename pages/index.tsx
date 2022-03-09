@@ -73,7 +73,7 @@ const Home: NextPage = () => {
           </div>
         ))}
       </div>
-      <button className="fixed bottom-2 right-3 border rounded-full bg-amber-500 p-3 shadow-2xl hover:bg-red-500">
+      <button className="fixed bottom-2 right-3 rounded-full bg-amber-500 p-3 shadow-2xl hover:bg-red-500">
         <svg
           className="w-8 h-8 text-stone-100"
           xmlns="http://www.w3.org/2000/svg"
