@@ -74,9 +74,9 @@ const Community: NextPage = () => {
           </section>
         </div>
       ))}
-      <button className="fixed bottom-10 right-8 rounded-full bg-amber-500 p-2 text-amber-500">
+      <button className="fixed bottom-2 right-3 rounded-full bg-amber-500 text-amber-500 p-3">
         <svg
-          className="w-10 h-10 fill-white"
+          className="w-8 h-8 fill-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

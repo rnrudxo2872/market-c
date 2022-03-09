@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import Stars from "../components/stars";
+import Stars from "../../components/stars";
 
 const Profile: NextPage = () => {
   return (
