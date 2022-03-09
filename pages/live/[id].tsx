@@ -2,110 +2,113 @@ import { NextPage } from "next";
 
 const StreamDetail: NextPage = () => {
   return (
-    <div className="space-y-2">
-      <section className="aspect-video bg-gray-400"></section>
-      <section className="flex items-center gap-1.5 px-3">
-        <div>
-          <div className="aspect-square w-10 rounded-full bg-gray-400"></div>
+    <div className="space-y-2 flex flex-col">
+      <section className="space-y-2">
+        <section className="aspect-video bg-gray-400"></section>
+        <section className="flex items-center gap-1.5 px-3">
+          <div>
+            <div className="aspect-square w-10 rounded-full bg-gray-400"></div>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm">
+              당근을 파는 감자입니다. 구경 해봐요!
+            </span>
+            <span className="text-xs text-gray-400">쏘세니</span>
+          </div>
+        </section>
+      </section>
+      <section className="px-4 py-5 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9)+calc(7.25rem)))] overflow-scroll">
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>안녕하세요.</span>
+            <span>네고 되나요?</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
         </div>
-        <div className="flex flex-col">
-          <span className="text-sm">당근을 파는 감자입니다. 구경 해봐요!</span>
-          <span className="text-xs text-gray-400">쏘세니</span>
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>안녕하세요.</span>
+            <span>네고 되나요?</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
+        </div>
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>안녕하세요.</span>
+            <span>네고 되나요?</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
+        </div>
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>안녕하세요.</span>
+            <span>네고 되나요?</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
+        </div>
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>안녕하세요.</span>
+            <span>네고 되나요?</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
+        </div>
+        <div className="flex gap-x-2">
+          <section className="flex flex-col items-start">
+            <div className="w-10 h-10 rounded-full bg-gray-300" />
+          </section>
+          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
+            <section className="inline-flex mr-2">
+              <span className="font-semibold">제임구리</span>
+            </section>
+            <span>마지막 말풍선 입니다.</span>
+          </section>
+          <section className="flex items-end text-xs text-gray-400">
+            <span>오후 2:49</span>
+          </section>
         </div>
       </section>
-      <section className="px-4 py-5 space-y-6 h-[40vh] overflow-scroll">
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-        <div className="flex gap-x-2">
-          <section className="flex flex-col items-start">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
-          </section>
-          <section className="bg-gray-200 bg-opacity-80 rounded-2xl py-2 px-3 text-sm">
-            <section className="inline-flex mr-2">
-              <span className="font-semibold">제임구리</span>
-            </section>
-            <span>안녕하세요.</span>
-            <span>네고 되나요?</span>
-          </section>
-          <section className="flex items-end text-xs text-gray-400">
-            <span>오후 2:49</span>
-          </section>
-        </div>
-      </section>
-      <section className="fixed bottom-0 w-full">
+      <section className="w-full">
         <form className="relative px-12 py-1 bg-[#DADDE2]">
           <button
             type="button"
