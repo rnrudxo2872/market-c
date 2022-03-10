@@ -17,7 +17,7 @@ const StreamDetail: NextPage = () => {
           </div>
         </section>
       </section>
-      <section className="px-4 py-5 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9)+calc(7.25rem)))] overflow-scroll">
+      <section className="px-4 pt-5 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9)+calc(7.25rem)))] overflow-scroll">
         <div className="flex gap-x-2">
           <section className="flex flex-col items-start">
             <div className="w-10 h-10 rounded-full bg-gray-300" />
