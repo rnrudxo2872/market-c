@@ -1,14 +1,11 @@
 import { NextPage } from "next";
 import { useState } from "react";
+import { joinClasses } from "../libs/common";
 
 const Enter: NextPage = () => {
   const [path, setPath] = useState<"email" | "phone">("email");
   const onEmail = () => setPath("email");
   const onPhone = () => setPath("phone");
-
-  function joinClasses(...classes: string[]): string {
-    return classes.join(" ");
-  }
 
   function togglePath(pred: () => boolean) {
     if (pred()) {

@@ -32,7 +32,7 @@ const CreateStream: NextPage = () => {
           </span>
           <input
             id="price"
-            type="text"
+            type="number"
             placeholder="0.00"
             className="w-full appearance-none border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-shadow duration-300 pl-5"
           />
