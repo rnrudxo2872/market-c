@@ -1,8 +1,10 @@
 import { NextPage } from "next";
+import Layout from "../../components/layout";
+import BaseTitle from "../../components/title";
 
 const Community: NextPage = () => {
   return (
-    <>
+    <Layout title={<BaseTitle title="동네생활" />} hasTabBar>
       {[1, 1, 1, 1, 1].map((_, index) => (
         <div
           key={index}
@@ -74,7 +76,7 @@ const Community: NextPage = () => {
           </section>
         </div>
       ))}
-      <button className="fixed bottom-2 right-3 rounded-full bg-amber-500 text-amber-500 p-3">
+      <button className="fixed bottom-24 right-5 rounded-full bg-amber-500 text-amber-500 p-3">
         <svg
           className="w-8 h-8 fill-white"
           fill="none"
@@ -90,7 +92,7 @@ const Community: NextPage = () => {
           ></path>
         </svg>
       </button>
-    </>
+    </Layout>
   );
 };
 
