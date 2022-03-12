@@ -4,4 +4,5 @@ export interface INavLinkBtnProps {
   children: React.ReactNode;
   name: string;
   href: string;
+  selected: boolean;
 }
