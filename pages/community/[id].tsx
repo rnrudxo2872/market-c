@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import BaseBtn from "../../components/baseBtn";
 
 const CommunityPostDetail: NextPage = () => {
   return (
@@ -114,9 +115,7 @@ const CommunityPostDetail: NextPage = () => {
           rows={3}
           className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow ring-amber-500 transition-shadow duration-300 px-2"
         />
-        <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-2 rounded-lg border-[1px] shadow-md">
-          댓글쓰기
-        </button>
+        <BaseBtn title="댓글 쓰기" />
       </section>
     </div>
   );
