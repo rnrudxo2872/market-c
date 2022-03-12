@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import BaseBtn from "../../components/baseBtn";
 import Layout from "../../components/layout";
+import RelatedProduct from "../../components/relatedProduct";
 import BaseTitle from "../../components/title";
 import { getLocalMonetUnit } from "../../libs/common";
 
@@ -64,17 +65,11 @@ const Item: NextPage = () => {
           <h2 className="font-bold text-lg">비슷한 상품</h2>
           <section className="grid grid-cols-2 gap-x-2 gap-y-4 mt-4">
             {[1, 1, 1, 1, 1].map((_, index) => (
-              <div key={index} className="">
-                <section>
-                  <div className="h-32 bg-slate-400" />
-                </section>
-                <section className="flex flex-col leading-none pt-2">
-                  <span>Ultra Galaxy 20</span>
-                  <span className="text-sm font-semibold">
-                    {getLocalMonetUnit(12, "us")}
-                  </span>
-                </section>
-              </div>
+              <RelatedProduct
+                key={index}
+                title={"Ultra Galaxy 20"}
+                price={"12"}
+              />
             ))}
           </section>
         </section>
