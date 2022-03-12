@@ -8,7 +8,15 @@ const Home: NextPage = () => {
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {[1, 1, 1, 1, 1].map((_, index) => (
-        <Item key={index} id={index + ""} />
+        <Item
+          key={index}
+          id={index + ""}
+          comments={1}
+          hearts={1}
+          price={140 + ""}
+          seller="Eric"
+          title="Galaxy S222"
+        />
       ))}
       <LaunchButton>
         <svg

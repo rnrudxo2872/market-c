@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { getLocalMonetUnit } from "../../libs/common";
+import { IHomeItem } from "./interfaces";
 
-export function Item({ id }: { id: string }) {
+export function Item({
+  id,
+  comments,
+  hearts,
+  price,
+  seller,
+  title,
+}: IHomeItem) {
   return (
     <div className="flex border-b items-center border-stone-300 relative">
       <section className="py-3 px-2">
@@ -13,10 +21,10 @@ export function Item({ id }: { id: string }) {
       </section>
       <section className="ml-2">
         <div className="flex flex-col leading-[0.5em]">
-          <span className="font-semibold">One Item</span>
-          <span className="text-gray-500 text-sm">Eric</span>
+          <span className="font-semibold">{title}</span>
+          <span className="text-gray-500 text-sm">{seller}</span>
           <span className="font-bold text-lg">
-            {getLocalMonetUnit(95, "us")}
+            {getLocalMonetUnit(Number(price), "us")}
           </span>
         </div>
       </section>
@@ -38,7 +46,7 @@ export function Item({ id }: { id: string }) {
               ></path>
             </svg>
           </button>
-          {1}
+          {hearts}
         </div>
         <div className="flex items-center">
           <button>
@@ -57,7 +65,7 @@ export function Item({ id }: { id: string }) {
               ></path>
             </svg>
           </button>
-          {1}
+          {comments}
         </div>
       </section>
     </div>

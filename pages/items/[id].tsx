@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import BaseBtn from "../../components/baseBtn";
 import Layout from "../../components/layout";
 import RelatedProduct from "../../components/relatedProduct";
