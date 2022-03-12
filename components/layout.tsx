@@ -1,25 +1,44 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { joinClasses } from "../libs/common";
+import PrevBtn from "./prevBtn";
 
 interface LayoutProps {
   title?: React.ReactNode;
   hasTabBar?: boolean;
+  hasBackBtn?: boolean;
   children: React.ReactNode;
 }
 
-export default function Layout({ children, hasTabBar, title }: LayoutProps) {
+export default function Layout({
+  children,
+  hasTabBar,
+  hasBackBtn,
+  title,
+}: LayoutProps) {
   const router = useRouter();
-  console.log(router);
-  console.log("탭 유무 -> ", hasTabBar);
+
+  function clickPreBtn() {
+    router.back();
+  }
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <section className="fixed top-0 w-full h-14 bg-white z-10 border-b border-b-gray-300 max-w-lg">
+      <section
+        className={joinClasses(
+          "fixed top-0 w-full bg-white z-10 border-b border-b-gray-300 max-w-lg flex gap-3",
+          title || hasBackBtn ? "h-14" : ""
+        )}
+      >
+        {hasBackBtn ? <PrevBtn OnClick={clickPreBtn} /> : null}
         {title ? title : null}
       </section>
       <section
-        className={title ? joinClasses("pt-14", hasTabBar ? "pb-14" : "") : ""}
+        className={joinClasses(
+          "",
+          title ? "pt-14" : "",
+          hasTabBar ? "pb-14" : ""
+        )}
       >
         {children}
       </section>
