@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import BaseBtn from "../../components/baseBtn";
+import PostStat from "../../components/communityPost/postStat";
 import Layout from "../../components/layout";
 
 const CommunityPostDetail: NextPage = () => {
@@ -7,13 +8,13 @@ const CommunityPostDetail: NextPage = () => {
     <Layout hasBackBtn>
       <div className="pt-5">
         <section className="flex flex-col">
-          <div className="flex mb-2 px-4">
+          <div className="flex mb-2 ">
             <span className="bg-slate-200 px-1 py-[0.15rem] rounded-md text-xs">
               동네질문
             </span>
           </div>
           <div>
-            <div className="flex gap-2 border-b border-stone-400 pb-3 px-4">
+            <div className="flex gap-2 border-b border-stone-400 pb-3 ">
               <div className="w-10 h-10 rounded-full bg-gray-300" />
               <div className="flex flex-col leading-none">
                 <span className="text-sm">Mike Job</span>
@@ -31,7 +32,7 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           </div>
         </section>
-        <article className="p-4 space-y-6 border-b border-gray-300 pb-3">
+        <article className="py-4 space-y-6 border-b border-gray-300">
           <section>
             <p>혹시 신도림 근처에 테니스 배울만한 곳 있을까요?</p>
           </section>
@@ -51,48 +52,13 @@ const CommunityPostDetail: NextPage = () => {
             </span>
           </section>
         </article>
-        <section className="flex gap-4 items-center px-4 border-b border-gray-300">
-          <div className="flex gap-1 items-center py-2">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            <span className="text-sm">궁금해요</span>
-            <span className="text-sm">{1}</span>
-          </div>
-          <div className="flex gap-1 items-center">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              ></path>
-            </svg>
-            <span className="text-sm">답변</span>
-            <span className="text-sm">{2}</span>
-          </div>
+        <section className="border-b border-gray-300">
+          <PostStat comment={2} like={1} />
         </section>
         <section className="pt-3.5">
           {[1, 1, 1, 1].map((_, index) => (
             <div key={index}>
-              <div className="flex gap-2 pb-6 px-4">
+              <div className="flex gap-2 pb-6 ">
                 <div className="w-10 h-10 rounded-full bg-gray-300" />
                 <div className="flex flex-col leading-none">
                   <span className="text-sm">죠니</span>
@@ -110,7 +76,7 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </section>
-        <section className="flex flex-col gap-2 pb-4 px-4">
+        <section className="flex flex-col gap-2 pb-4 ">
           <textarea
             id="description"
             rows={3}
