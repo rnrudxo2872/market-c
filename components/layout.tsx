@@ -36,7 +36,7 @@ export default function Layout({
       <section
         className={joinClasses(
           "",
-          title ? "pt-14" : "",
+          title || hasBackBtn ? "pt-14" : "",
           hasTabBar ? "pb-14" : ""
         )}
       >
