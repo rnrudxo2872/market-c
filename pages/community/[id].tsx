@@ -70,7 +70,7 @@ const CommunityPostDetail: NextPage = () => {
                         <span>•</span>
                         <span>1시간 전</span>
                       </div>
-                      <p className="">
+                      <p>
                         도림천역에 신도림테니스장에서
                         레슨하더라구요(구로구시설관리공단에 문의해보세요)
                       </p>
