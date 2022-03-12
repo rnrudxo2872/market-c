@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { getLocalMonetUnit } from "../../libs/common";
 
 const Sold: NextPage = () => {
   return (
@@ -21,11 +22,7 @@ const Sold: NextPage = () => {
               <span className="font-semibold">One Item</span>
               <span className="text-gray-500 text-sm">Eric</span>
               <span className="font-bold text-lg">
-                {Number.prototype.toLocaleString.call(95, "en-US", {
-                  maximumFractionDigits: 0,
-                  currency: "USD",
-                  style: "currency",
-                })}
+                {getLocalMonetUnit(95, "us")}
               </span>
             </div>
           </section>

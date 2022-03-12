@@ -3,11 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import BaseTitle from "../../components/title";
+import { getLocalMonetUnit } from "../../libs/common";
 
 const Item: NextPage = () => {
-  const router = useRouter();
-  const itemId = router.query.id;
-
   return (
     <Layout hasBackBtn title={<BaseTitle title="제품상세" />}>
       <div className="flex flex-col px-2 mt-8">
@@ -29,11 +27,7 @@ const Item: NextPage = () => {
           <div>
             <h1 className="text-2xl font-bold">iPhone</h1>
             <p className="text-xl font-semibold">
-              {Number.prototype.toLocaleString.call(140, "en-US", {
-                currency: "USD",
-                style: "currency",
-                maximumFractionDigits: 0,
-              })}
+              {getLocalMonetUnit(140, "us")}
             </p>
             <span className="text-sm">
               It is a long established fact that a reader will be distracted by
@@ -78,11 +72,7 @@ const Item: NextPage = () => {
                 <section className="flex flex-col leading-none pt-2">
                   <span>Ultra Galaxy 20</span>
                   <span className="text-sm font-semibold">
-                    {Number.prototype.toLocaleString.call(12, "en-US", {
-                      currency: "USD",
-                      style: "currency",
-                      maximumFractionDigits: 0,
-                    })}
+                    {getLocalMonetUnit(12, "us")}
                   </span>
                 </section>
               </div>

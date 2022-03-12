@@ -1,3 +1,5 @@
+import { getLocalMonetUnit } from "../libs/common";
+
 //https://dribbble.com/shots/15996385-Ecommerce-elements/attachments/7835152?mode=media
 export default function UserProfile() {
   return (
@@ -20,13 +22,7 @@ export default function UserProfile() {
         </div>
         <div className="flex flex-col mt-2">
           <span className="text-slate-400">Spent</span>
-          <span className="font-bold">
-            {Number.prototype.toLocaleString.call(2310, "en-US", {
-              style: "currency",
-              currency: "USD",
-              maximumFractionDigits: 0,
-            })}
-          </span>
+          <span className="font-bold">{getLocalMonetUnit(2310, "us")}</span>
         </div>
       </div>
     </div>
