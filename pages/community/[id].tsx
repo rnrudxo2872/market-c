@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import BaseBtn from "../../components/baseBtn";
 import PostStat from "../../components/communityPost/postStat";
 import Layout from "../../components/layout";
+import PostUser from "../../components/profile/postUser";
 
 const CommunityPostDetail: NextPage = () => {
   return (
@@ -14,21 +15,22 @@ const CommunityPostDetail: NextPage = () => {
             </span>
           </div>
           <div>
-            <div className="flex gap-2 border-b border-stone-400 pb-3 ">
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <div className="flex flex-col leading-none">
-                <span className="text-sm">Mike Job</span>
-                <div className="flex gap-1 text-xs text-gray-500">
-                  <div>
-                    <span>영등포구 도림동</span>
-                    <span>인증 {6}회</span>
+            <div className="border-b border-stone-400">
+              <PostUser
+                name="Mike Job"
+                option={
+                  <div className="flex gap-1 text-xs text-gray-500">
+                    <div>
+                      <span>영등포구 도림동</span>
+                      <span>인증 {6}회</span>
+                    </div>
+                    <span>•</span>
+                    <div>
+                      <span>1시간 전</span>
+                    </div>
                   </div>
-                  <span>•</span>
-                  <div>
-                    <span>1시간 전</span>
-                  </div>
-                </div>
-              </div>
+                }
+              />
             </div>
           </div>
         </section>
@@ -59,19 +61,22 @@ const CommunityPostDetail: NextPage = () => {
           {[1, 1, 1, 1].map((_, index) => (
             <div key={index}>
               <div className="flex gap-2 pb-6 ">
-                <div className="w-10 h-10 rounded-full bg-gray-300" />
-                <div className="flex flex-col leading-none">
-                  <span className="text-sm">죠니</span>
-                  <div className="flex gap-1 text-xs text-gray-500 pb-1">
-                    <span>영등포구 도림동</span>
-                    <span>•</span>
-                    <span>1시간 전</span>
-                  </div>
-                  <p>
-                    도림천역에 신도림테니스장에서
-                    레슨하더라구요(구로구시설관리공단에 문의해보세요)
-                  </p>
-                </div>
+                <PostUser
+                  name="죠니"
+                  option={
+                    <div className="flex flex-col leading-none">
+                      <div className="flex gap-1 text-xs text-gray-500 pb-1">
+                        <span>영등포구 도림동</span>
+                        <span>•</span>
+                        <span>1시간 전</span>
+                      </div>
+                      <p className="">
+                        도림천역에 신도림테니스장에서
+                        레슨하더라구요(구로구시설관리공단에 문의해보세요)
+                      </p>
+                    </div>
+                  }
+                />
               </div>
             </div>
           ))}
