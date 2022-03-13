@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import BaseBtn from "../components/baseBtn";
 import Input from "../components/input";
+import useMutation from "../libs/client/useMutation";
 import { joinClasses } from "../libs/common";
 
 interface IEnterForm {
@@ -12,6 +13,8 @@ interface IEnterForm {
 
 const Enter: NextPage = () => {
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
+  const { fetchMutation, loading, data, error } =
+    useMutation<IEnterForm>("/api/users/enter");
   const [path, setPath] = useState<"email" | "phone">("email");
   const onEmail = () => setPath("email");
   const onPhone = () => setPath("phone");
@@ -24,9 +27,9 @@ const Enter: NextPage = () => {
   }
 
   function OnValid(data: IEnterForm) {
-    console.log(data);
+    fetchMutation(data);
   }
-
+  console.log(data);
   useEffect(() => reset(), [path, reset]);
 
   return (
@@ -97,7 +100,11 @@ const Enter: NextPage = () => {
               />
             )}
             <BaseBtn OnClick={handleSubmit(OnValid)}>
-              {path === "email" ? "Get login link" : "Get one-time password"}
+              {loading
+                ? "now loging..."
+                : path === "email"
+                ? "Get login link"
+                : "Get one-time password"}
             </BaseBtn>
           </form>
         </div>
