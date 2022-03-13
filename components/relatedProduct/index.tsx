@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { getLocalMonetUnit } from "../../libs/common";
+import { getLocalMonetUnit } from "@libs/common";
 import { IRelateProductProps } from "./interfaces";
 
 export default memo(function RelateProduct({

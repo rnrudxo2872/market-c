@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { joinClasses } from "../libs/common";
+import { joinClasses } from "@libs/common";
 import PrevBtn from "./prevBtn";
 import TabBar from "./tabBar";
 

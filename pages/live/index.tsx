@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import Layout from "../../components/layout";
-import BaseTitle from "../../components/title";
+import Layout from "@components/layout";
+import BaseTitle from "@components/title";
 
 const Streams: NextPage = () => {
   return (

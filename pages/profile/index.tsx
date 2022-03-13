@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import Layout from "../../components/layout";
-import Stars from "../../components/stars";
-import BaseTitle from "../../components/title";
+import Layout from "@components/layout";
+import Stars from "@components/stars";
+import BaseTitle from "@components/title";
 
 const Profile: NextPage = () => {
   return (

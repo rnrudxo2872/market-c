@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { getLocalMonetUnit } from "../../libs/common";
+import { getLocalMonetUnit } from "@libs/common";
 
 const Bought: NextPage = () => {
   return (

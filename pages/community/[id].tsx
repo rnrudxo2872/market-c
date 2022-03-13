@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import BaseBtn from "../../components/baseBtn";
-import PostStat from "../../components/communityPost/postStat";
-import Layout from "../../components/layout";
-import PostUser from "../../components/profile/postUser";
+import BaseBtn from "@components/baseBtn";
+import PostStat from "@components/communityPost/postStat";
+import Layout from "@components/layout";
+import PostUser from "@components/profile/postUser";
 
 const CommunityPostDetail: NextPage = () => {
   return (

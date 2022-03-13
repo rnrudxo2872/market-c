@@ -1,10 +1,10 @@
+import BaseBtn from "@components/baseBtn";
+import Input from "@components/input";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import BaseBtn from "../components/baseBtn";
-import Input from "../components/input";
-import useMutation from "../libs/client/useMutation";
-import { joinClasses } from "../libs/common";
+import useMutation from "@libs/client/useMutation";
+import { joinClasses } from "@libs/common";
 
 interface IEnterForm {
   email: string;
@@ -29,7 +29,7 @@ const Enter: NextPage = () => {
   function OnValid(data: IEnterForm) {
     fetchMutation(data);
   }
-  console.log(data);
+
   useEffect(() => reset(), [path, reset]);
 
   return (

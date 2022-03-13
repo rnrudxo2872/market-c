@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import CommunityPost from "../../components/communityPost";
-import Layout from "../../components/layout";
-import BaseTitle from "../../components/title";
+import CommunityPost from "@components/communityPost";
+import Layout from "@components/layout";
+import BaseTitle from "@components/title";
 
 const Community: NextPage = () => {
   return (

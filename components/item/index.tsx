@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLocalMonetUnit } from "../../libs/common";
+import { getLocalMonetUnit } from "@libs/common";
 import { IHomeItem } from "./interfaces";
 
 export function Item({

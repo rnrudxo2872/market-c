@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { memo } from "react";
-import { joinClasses } from "../../libs/common";
+import { joinClasses } from "@libs/common";
 import { INavLinkBtnProps } from "./interfaces";
 
 export default memo(function NavLinkBtn({
