@@ -25,7 +25,7 @@ export default function useMutation<S = any>(
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => (console.log(res), res.json()))
       .then(setData)
       .catch(setError)
       .finally(() => setLoading(false));
