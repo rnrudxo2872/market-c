@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { useState } from "react";
+import BaseBtn from "../components/baseBtn";
 import { joinClasses } from "../libs/common";
 
 const Enter: NextPage = () => {
@@ -73,9 +74,9 @@ const Enter: NextPage = () => {
                 </div>
               </div>
             )}
-            <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-2 rounded-lg border-[1px] shadow-md">
+            <BaseBtn OnClick={() => console.log("ss")}>
               {path === "email" ? "Get login link" : "Get one-time password"}
-            </button>
+            </BaseBtn>
           </form>
         </div>
       </div>

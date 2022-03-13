@@ -41,7 +41,7 @@ const Item: NextPage = () => {
             </span>
           </div>
           <div className="flex py-4">
-            <BaseBtn title="판매자와 대화하기" />
+            <BaseBtn OnClick={() => console.log("")}>판매자와 대화하기</BaseBtn>
             <button className="px-4">
               <svg
                 className="w-5 h-5 text-stone-400"
