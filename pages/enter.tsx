@@ -1,10 +1,17 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import BaseBtn from "../components/baseBtn";
 import Input from "../components/input";
 import { joinClasses } from "../libs/common";
 
+interface IEnterForm {
+  email: string;
+  phone: string;
+}
+
 const Enter: NextPage = () => {
+  const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const [path, setPath] = useState<"email" | "phone">("email");
   const onEmail = () => setPath("email");
   const onPhone = () => setPath("phone");
@@ -15,6 +22,12 @@ const Enter: NextPage = () => {
     }
     return "border-b-[1px] border-b-gray-200 text-gray-400";
   }
+
+  function OnValid(data: IEnterForm) {
+    console.log(data);
+  }
+
+  useEffect(() => reset(), [path, reset]);
 
   return (
     <div className="mt-12 px-16">
@@ -56,13 +69,34 @@ const Enter: NextPage = () => {
               {path === "email" ? "Email address" : "Phone number"}
             </label>
           </div>
-          <form className="flex flex-col space-y-4">
+          <form
+            className="flex flex-col space-y-4"
+            onSubmit={handleSubmit(OnValid)}
+          >
             {path === "email" ? (
-              <Input id="inputBox" type="email" />
+              <Input
+                id="inputBox"
+                type="email"
+                register={register("email", {
+                  required: {
+                    message: "string",
+                    value: true,
+                  },
+                })}
+              />
             ) : (
-              <Input type="phone" />
+              <Input
+                id="inputBox"
+                type="phone"
+                register={register("phone", {
+                  required: {
+                    message: "string",
+                    value: true,
+                  },
+                })}
+              />
             )}
-            <BaseBtn OnClick={() => console.log("ss")}>
+            <BaseBtn OnClick={handleSubmit(OnValid)}>
               {path === "email" ? "Get login link" : "Get one-time password"}
             </BaseBtn>
           </form>
