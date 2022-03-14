@@ -1,10 +1,11 @@
 import ChatBubble from "@components/chat/chatBubble";
 import ChatForm from "@components/chat/chatForm";
+import Layout from "@components/layout";
 import { NextPage } from "next";
 
 const ChatDetail: NextPage = () => {
   return (
-    <>
+    <Layout hasBackBtn>
       <div className="px-4 py-5 space-y-6">
         <ChatBubble
           text={
@@ -20,11 +21,10 @@ const ChatDetail: NextPage = () => {
           time="오후 2:54"
           me
         ></ChatBubble>
-
         <ChatBubble text={"넵"} time="오후 3:12"></ChatBubble>
       </div>
       <ChatForm />
-    </>
+    </Layout>
   );
 };
 

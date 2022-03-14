@@ -11,7 +11,7 @@ const Chats: NextPage = () => {
           <Link key={index} href={`/chats/${index}`}>
             <a>
               <div className="flex gap-2 pt-1 pb-2.5 items-center border-gray-400">
-                <div className="w-12 h-12 rounded-full bg-gray-300" />
+                <div className="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0" />
                 <div className="flex flex-col flex-grow">
                   <div className="flex leading-none gap-1 items-center">
                     <span className="text-sm font-bold">죠니</span>

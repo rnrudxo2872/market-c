@@ -1,7 +1,7 @@
 export default function ChatForm() {
   return (
-    <div className="fixed bottom-0 w-full">
-      <form className="relative px-12 py-1 bg-gray-300 bg-opacity-80">
+    <div className="fixed bottom-0 inset-x-0">
+      <form className="relative px-12 py-1 bg-gray-300 bg-opacity-80 w-full max-w-md mx-auto">
         <button
           type="button"
           className="absolute left-2 bottom-0 top-0 my-auto fill-gray-400 hover:fill-amber-500 focus:fill-amber-500 transition-colors"
@@ -19,7 +19,7 @@ export default function ChatForm() {
         <input
           id="inputBox"
           type="text"
-          className="border-[1.5px] border-gray-400 border-opacity-60 rounded-2xl py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-shadow duration-300 px-2 w-full"
+          className="border-[1.5px] border-gray-400 border-opacity-60 rounded-2xl py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-shadow duration-300 px-2 w-full mx-auto"
           required
         />
         <button className="absolute right-[3.22rem] bottom-0 top-0 my-auto fill-gray-500 hover:fill-amber-500 focus:fill-amber-500 transition-colors">

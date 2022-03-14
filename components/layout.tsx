@@ -23,7 +23,7 @@ export default function Layout({
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <section
         className={joinClasses(
           "fixed top-0 w-full bg-white z-10 border-b border-b-gray-300 max-w-lg flex gap-3",
@@ -44,7 +44,7 @@ export default function Layout({
       </section>
       <section
         className={joinClasses(
-          "fixed bottom-0 w-full max-w-lg",
+          "fixed bottom-0 w-full max-w-md",
           hasTabBar
             ? "bg-white py-2 border-t border-t-gray-300 flex justify-between px-6"
             : ""
