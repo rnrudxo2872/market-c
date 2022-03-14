@@ -6,7 +6,7 @@ import BaseTitle from "@components/title";
 
 const Profile: NextPage = () => {
   return (
-    <Layout title={<BaseTitle title="동네생활" />} hasTabBar>
+    <Layout title={<BaseTitle title="나의 당근" />} hasTabBar>
       <div className="flex flex-col gap-8">
         <section className="flex gap-2 pt-2 px-4 items-center">
           <div className="w-14 h-14 rounded-full bg-gray-300" />
