@@ -8,7 +8,7 @@ const Chats: NextPage = () => {
     <Layout title={<BaseTitle title="채팅" />} hasTabBar>
       <div className="divide-y-[1px]">
         {[1, 1, 1, 1].map((_, index) => (
-          <Link key={index} href={`/community/${index}`}>
+          <Link key={index} href={`/chats/${index}`}>
             <a>
               <div className="flex gap-2 pt-1 pb-2.5 items-center border-gray-400">
                 <div className="w-12 h-12 rounded-full bg-gray-300" />
