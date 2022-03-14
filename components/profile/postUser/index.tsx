@@ -8,7 +8,7 @@ interface IPostUserProps {
 
 export default memo(function PostUser({ name, option }: IPostUserProps) {
   return (
-    <div className="flex gap-2 pb-3">
+    <div className="flex gap-2">
       <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0" />
       <div className="flex flex-col leading-none">
         <span className="text-sm">{name}</span>

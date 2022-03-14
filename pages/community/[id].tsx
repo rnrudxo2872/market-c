@@ -15,7 +15,7 @@ const CommunityPostDetail: NextPage = () => {
             </span>
           </div>
           <div>
-            <div className="border-b border-stone-400">
+            <div className="border-b border-stone-400 pb-3">
               <PostUser
                 name="Mike Job"
                 option={

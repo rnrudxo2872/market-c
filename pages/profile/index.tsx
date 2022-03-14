@@ -3,6 +3,7 @@ import Link from "next/link";
 import Layout from "@components/layout";
 import Stars from "@components/stars";
 import BaseTitle from "@components/title";
+import PostUser from "@components/profile/postUser";
 
 const Profile: NextPage = () => {
   return (
@@ -52,66 +53,27 @@ const Profile: NextPage = () => {
           </button>
         </section>
         <section className="flex flex-col divide-y-2 py-8 px-4 items-center">
-          <div className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-sm font-semibold">Mike Job</span>
-                <Stars fills={[1, 1, 1, 1, 0.5]} />
+          {[1, 1, 1, 1].map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0"
+            >
+              <div className="flex gap-2 items-center">
+                <section className="flex pt-2 items-center">
+                  <PostUser
+                    name="Mike Job"
+                    option={<Stars fills={[1, 1, 1, 1, 0.5]} />}
+                  />
+                </section>
+              </div>
+              <div>
+                <p className="text-sm">
+                  제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가
+                  없으니 새제품 같고 너무 좋네요.
+                </p>
               </div>
             </div>
-            <div>
-              <p className="text-sm">
-                제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가 없으니
-                새제품 같고 너무 좋네요.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-sm font-semibold">Mike Job</span>
-                <Stars fills={[1, 1, 1, 1, 0.5]} />
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">
-                제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가 없으니
-                새제품 같고 너무 좋네요.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-sm font-semibold">Mike Job</span>
-                <Stars fills={[1, 1, 1, 1, 0.5]} />
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">
-                제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가 없으니
-                새제품 같고 너무 좋네요.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0">
-            <div className="flex gap-2 items-center">
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-sm font-semibold">Mike Job</span>
-                <Stars fills={[1, 1, 1, 1, 0.5]} />
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">
-                제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가 없으니
-                새제품 같고 너무 좋네요.
-              </p>
-            </div>
-          </div>
+          ))}
         </section>
       </div>
     </Layout>
