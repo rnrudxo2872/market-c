@@ -5,21 +5,22 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
   const method = email ? { email } : { phone: Number(phone) };
-
-  const user = await client.user.upsert({
-    where: { ...method },
-    create: { name: "Unknown", ...method },
-    update: {},
-  });
-
   const randNum = Math.floor(Math.random() * 1000000) + "";
   const token = await client.token.create({
     data: {
       content: randNum,
-      user: { connect: { id: user.id } },
+      user: {
+        connectOrCreate: {
+          where: { ...method },
+          create: {
+            name: "Unknown?",
+            ...method,
+          },
+        },
+      },
     },
   });
-  console.log(token);
+
   res.status(200).json({ ok: true });
 }
 
