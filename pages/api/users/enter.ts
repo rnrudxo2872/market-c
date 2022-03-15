@@ -12,6 +12,14 @@ async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
     update: {},
   });
 
+  const randNum = Math.floor(Math.random() * 1000000) + "";
+  const token = await client.token.create({
+    data: {
+      content: randNum,
+      user: { connect: { id: user.id } },
+    },
+  });
+  console.log(token);
   res.status(200).json({ ok: true });
 }
 
