@@ -1,12 +1,17 @@
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-import twilio from "twilio";
+import nodemailer from "nodemailer";
 
 async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
   const method = email ? { email } : { phone: Number(phone) };
   const randNum = Math.floor(Math.random() * 1000000) + "";
+
+  const isUser = await client.user.findUnique({ where: { ...method } });
+  if (isUser) {
+    await client.token.delete({ where: { userId: isUser.id } });
+  }
   const token = await client.token.create({
     data: {
       content: randNum,
@@ -22,22 +27,41 @@ async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if (phone) {
-    console.log("");
-    console.log("User account by phone number.");
-    console.log(`User number => ${phone}`);
+  // if (phone) {
+  //   const twilioClient = twilio(
+  //     process.env.TWILIO_ACCOUNT_SID,
+  //     process.env.TWILIO_AUTH_TOKEN
+  //   );
+  //   twilioClient.messages
+  //     .create({
+  //       to: process.env.USER_PHONE_NUM ?? "",
+  //       body: randNum,
+  //       messagingServiceSid: process.env.TWILIO_MS_ID,
+  //     })
+  //     .then(console.log);
+  // }
 
-    const twilioClient = twilio(
-      process.env.TWILIO_ACCOUNT_SID,
-      process.env.TWILIO_AUTH_TOKEN
-    );
-    twilioClient.messages
-      .create({
-        to: process.env.USER_PHONE_NUM ?? "",
-        body: randNum,
-        messagingServiceSid: process.env.TWILIO_MS_ID,
-      })
-      .then(console.log);
+  if (email) {
+    let testAccount = await nodemailer.createTestAccount();
+
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.GMAIL_ACCOUNT,
+        pass: process.env.GMAIL_PASS,
+      },
+    });
+
+    let info = await transporter.sendMail({
+      to: email,
+      from: process.env.GMAIL_ACCOUNT,
+      subject: "감자마켓 - 인증번호 발송",
+      text: `감자마켓 - 인증번호: ${randNum}`,
+    });
+
+    console.log(info);
   }
 
   res.status(200).json({ ok: true });
