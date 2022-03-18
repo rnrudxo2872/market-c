@@ -1,9 +1,8 @@
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
 
-async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
   const method = email ? { email } : { phone: Number(phone) };
   const randNum = Math.floor(Math.random() * 1000000) + "";
@@ -41,30 +40,26 @@ async function enterHandler(req: NextApiRequest, res: NextApiResponse) {
   //     .then(console.log);
   // }
 
-  if (email) {
-    let testAccount = await nodemailer.createTestAccount();
+  // if (email) {
+  //   const transporter = nodemailer.createTransport({
+  //     service: "gmail",
+  //     port: 465,
+  //     secure: true,
+  //     auth: {
+  //       user: process.env.GMAIL_ACCOUNT,
+  //       pass: process.env.GMAIL_PASS,
+  //     },
+  //   });
 
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.GMAIL_ACCOUNT,
-        pass: process.env.GMAIL_PASS,
-      },
-    });
-
-    let info = await transporter.sendMail({
-      to: email,
-      from: process.env.GMAIL_ACCOUNT,
-      subject: "감자마켓 - 인증번호 발송",
-      text: `감자마켓 - 인증번호: ${randNum}`,
-    });
-
-    console.log(info);
-  }
+  //   const info = await transporter.sendMail({
+  //     to: email,
+  //     from: process.env.GMAIL_ACCOUNT,
+  //     subject: "감자마켓 - 인증번호 발송",
+  //     text: `감자마켓 - 인증번호: ${randNum}`,
+  //   });
+  // }
 
   res.status(200).json({ ok: true });
 }
 
-export default withHandler("POST", enterHandler);
+export default withHandler("POST", handler);

@@ -12,14 +12,34 @@ interface IEnterForm {
   phone: string;
 }
 
+interface IConfirmForm {
+  token: string;
+}
+
 const Enter: NextPage = () => {
-  const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const {
-    fetchMutation,
-    loading,
-    data: resData,
-    error,
+    register: enterReg,
+    reset: enterReset,
+    handleSubmit: enterSub,
+  } = useForm<IEnterForm>();
+  const {
+    register: tokenReg,
+    reset: tokenReset,
+    handleSubmit: tokenSub,
+  } = useForm<IConfirmForm>();
+  const {
+    fetchMutation: enterMutation,
+    loading: enterLoading,
+    data: enterData,
+    error: enterError,
   } = useMutation<IEnterForm>("/api/users/enter");
+  const {
+    fetchMutation: tokenMutation,
+    loading: tokenLoading,
+    data: tokenData,
+    error: tokenError,
+  } = useMutation<IConfirmForm>("/api/users/tokenConfirm");
+  const [isToken, setIsToken] = useState(false);
   const [path, setPath] = useState<"email" | "phone">("email");
   const onEmail = () => setPath("email");
   const onPhone = () => setPath("phone");
@@ -32,12 +52,21 @@ const Enter: NextPage = () => {
   }
 
   function OnValid(data: IEnterForm) {
-    if (loading) return;
+    if (enterLoading) return;
 
-    fetchMutation(data);
+    enterMutation(data);
   }
 
-  useEffect(() => reset(), [path, reset]);
+  function OnTokenValid(data: IConfirmForm) {
+    if (tokenLoading) return;
+
+    console.log("now token proc...");
+    tokenMutation(data);
+  }
+
+  useEffect(() => enterReset(), [path, enterReset]);
+
+  console.log(enterData);
 
   return (
     <Layout>
@@ -46,76 +75,110 @@ const Enter: NextPage = () => {
           <h1 className="font-extrabold text-2xl">Enter to Potato</h1>
         </div>
         <div className="flex flex-col mb-6">
-          <div className="mx-auto mb-6">
-            <span className="font-bold text-gray-600 text-opacity-70 text-sm">
-              Enter using:
-            </span>
-          </div>
-          <div className="flex">
-            <button
-              onClick={() => onEmail()}
-              className={joinClasses(
-                "w-1/2 font-semibold transition-colors",
-                togglePath(() => path === "email")
-              )}
-            >
-              Email
-            </button>
-            <button
-              onClick={() => onPhone()}
-              className={joinClasses(
-                "w-1/2 font-semibold transition-colors",
-                togglePath(() => path === "phone")
-              )}
-            >
-              Phone
-            </button>
-          </div>
-          <div className="space-y-2 mt-8">
-            <div>
-              <label
-                htmlFor="inputBox"
-                className="font-semibold text-slate-500 select-none"
+          {enterData?.ok ? (
+            <>
+              <div className="mx-auto mb-6">
+                <span className="font-bold text-gray-600 text-opacity-70 text-sm">
+                  인증 단계:
+                </span>
+              </div>
+              <form
+                className="flex flex-col space-y-4"
+                onSubmit={tokenSub(OnTokenValid)}
               >
-                {path === "email" ? "Email address" : "Phone number"}
-              </label>
-            </div>
-            <form
-              className="flex flex-col space-y-4"
-              onSubmit={handleSubmit(OnValid)}
-            >
-              {path === "email" ? (
-                <Input
-                  id="inputBox"
-                  type="email"
-                  register={register("email", {
-                    required: {
-                      message: "string",
-                      value: true,
-                    },
-                  })}
-                />
-              ) : (
                 <Input
                   id="inputBox"
                   type="phone"
-                  register={register("phone", {
+                  register={tokenReg("token", {
                     required: {
                       message: "string",
                       value: true,
                     },
                   })}
                 />
-              )}
-              <BaseBtn OnClick={handleSubmit(OnValid)}>
-                {loading
-                  ? "now loging..."
-                  : path === "email"
-                  ? "Get login link"
-                  : "Get one-time password"}
-              </BaseBtn>
-            </form>
-          </div>
+                <BaseBtn OnClick={tokenSub(OnTokenValid)}>
+                  {tokenLoading
+                    ? "now loging..."
+                    : path === "email"
+                    ? "Get login link"
+                    : "Get one-time password"}
+                </BaseBtn>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className="mx-auto mb-6">
+                <span className="font-bold text-gray-600 text-opacity-70 text-sm">
+                  Enter using:
+                </span>
+              </div>
+              <div className="flex">
+                <button
+                  onClick={() => onEmail()}
+                  className={joinClasses(
+                    "w-1/2 font-semibold transition-colors",
+                    togglePath(() => path === "email")
+                  )}
+                >
+                  Email
+                </button>
+                <button
+                  onClick={() => onPhone()}
+                  className={joinClasses(
+                    "w-1/2 font-semibold transition-colors",
+                    togglePath(() => path === "phone")
+                  )}
+                >
+                  Phone
+                </button>
+              </div>
+              <div className="space-y-2 mt-8">
+                <div>
+                  <label
+                    htmlFor="inputBox"
+                    className="font-semibold text-slate-500 select-none"
+                  >
+                    {path === "email" ? "Email address" : "Phone number"}
+                  </label>
+                </div>
+                <form
+                  className="flex flex-col space-y-4"
+                  onSubmit={enterSub(OnValid)}
+                >
+                  {path === "email" ? (
+                    <Input
+                      id="inputBox"
+                      type="email"
+                      register={enterReg("email", {
+                        required: {
+                          message: "string",
+                          value: true,
+                        },
+                      })}
+                    />
+                  ) : (
+                    <Input
+                      id="inputBox"
+                      type="phone"
+                      register={enterReg("phone", {
+                        required: {
+                          message: "string",
+                          value: true,
+                        },
+                      })}
+                    />
+                  )}
+                  <BaseBtn OnClick={enterSub(OnValid)}>
+                    {enterLoading
+                      ? "now loging..."
+                      : path === "email"
+                      ? "Get login link"
+                      : "Get one-time password"}
+                  </BaseBtn>
+                </form>
+              </div>
+            </>
+          )}
         </div>
         <div>
           <div className="flex items-center gap-1">
