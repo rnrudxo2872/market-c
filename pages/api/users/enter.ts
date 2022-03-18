@@ -9,7 +9,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const isUser = await client.user.findUnique({ where: { ...method } });
   if (isUser) {
-    await client.token.delete({ where: { userId: isUser.id } });
+    await client.token.deleteMany({ where: { userId: isUser.id } });
   }
   const token = await client.token.create({
     data: {

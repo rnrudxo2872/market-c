@@ -87,8 +87,8 @@ const Enter: NextPage = () => {
                 onSubmit={tokenSub(OnTokenValid)}
               >
                 <Input
-                  id="inputBox"
-                  type="phone"
+                  id="token"
+                  type="text"
                   register={tokenReg("token", {
                     required: {
                       message: "string",
