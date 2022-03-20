@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { joinClasses } from "@libs/common";
 import Layout from "@components/layout";
+import { useRouter } from "next/router";
 
 interface IEnterForm {
   email: string;
@@ -41,6 +42,7 @@ const Enter: NextPage = () => {
   } = useMutation<IConfirmForm>("/api/users/tokenConfirm");
   const [isToken, setIsToken] = useState(false);
   const [path, setPath] = useState<"email" | "phone">("email");
+  const router = useRouter();
   const onEmail = () => setPath("email");
   const onPhone = () => setPath("phone");
 
@@ -65,6 +67,11 @@ const Enter: NextPage = () => {
   }
 
   useEffect(() => enterReset(), [path, enterReset]);
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
+    }
+  }, [router, tokenData]);
 
   console.log(enterData);
 

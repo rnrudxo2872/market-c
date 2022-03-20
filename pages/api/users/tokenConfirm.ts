@@ -21,7 +21,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.session.user);
   await req.session.save();
 
-  res.status(200).end();
+  res.status(200).json({
+    ok: true,
+  });
 }
 
 export default withSession(withHandler("POST", handler));
