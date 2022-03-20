@@ -4,7 +4,8 @@ import { withSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { token } = req.body;
+  const { token, email, phone } = req.body;
+  const method = email ? { email } : { phone };
   const existToken = await client.token.findUnique({
     where: {
       content: token,
@@ -12,16 +13,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (!existToken) {
-    res.status(404).end();
-    return;
+    return res.status(404).end();
   }
+
+  const existUser = await client.user.findUnique({
+    where: {
+      ...method,
+    },
+  });
+
+  if (!existUser || existUser.id !== existToken.userId) {
+    return res.status(405).end();
+  }
+
   req.session.user = {
     id: existToken.userId,
   };
   console.log(req.session.user);
   await req.session.save();
 
-  res.status(200).json({
+  return res.status(200).json({
     ok: true,
   });
 }

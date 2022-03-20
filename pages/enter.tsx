@@ -22,6 +22,7 @@ const Enter: NextPage = () => {
     register: enterReg,
     reset: enterReset,
     handleSubmit: enterSub,
+    watch: enterWatch,
   } = useForm<IEnterForm>();
   const {
     register: tokenReg,
@@ -61,9 +62,9 @@ const Enter: NextPage = () => {
 
   function OnTokenValid(data: IConfirmForm) {
     if (tokenLoading) return;
-
     console.log("now token proc...");
-    tokenMutation(data);
+    console.log(enterWatch());
+    tokenMutation({ ...data, ...enterWatch() });
   }
 
   useEffect(() => enterReset(), [path, enterReset]);

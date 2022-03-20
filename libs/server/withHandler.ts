@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default function withHandler(
   method: "GET" | "POST" | "DELETE",
-  fn: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+  fn: (req: NextApiRequest, res: NextApiResponse) => any
 ) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     if (method !== req.method) {

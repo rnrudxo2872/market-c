@@ -1,5 +1,4 @@
 import { withIronSessionApiRoute } from "iron-session/next";
-import { NextApiHandler } from "next";
 
 declare module "iron-session" {
   interface IronSessionData {
@@ -14,6 +13,6 @@ const OPTION = {
   password: process.env.IRON_PASS!,
 };
 
-export function withSession(fn: NextApiHandler<void>) {
+export function withSession(fn: any) {
   return withIronSessionApiRoute(fn, OPTION);
 }

@@ -1,10 +1,11 @@
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
+import { withSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
-  const method = email ? { email } : { phone: Number(phone) };
+  const method = email ? { email } : { phone };
   const randNum = Math.floor(Math.random() * 1000000) + "";
 
   const isUser = await client.user.findUnique({ where: { ...method } });
@@ -62,4 +63,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ ok: true });
 }
 
-export default withHandler("POST", handler);
+export default withSession(withHandler("POST", handler));
