@@ -3,9 +3,7 @@ import { useEffect } from "react";
 import useSWR from "swr";
 
 export default function useUser() {
-  const { data, error } = useSWR("/api/users/me", () =>
-    fetch("/api/users/me").then((res) => res.json())
-  );
+  const { data, error } = useSWR("/api/users/me");
   const router = useRouter();
 
   useEffect(() => {
