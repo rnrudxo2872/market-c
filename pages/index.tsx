@@ -7,7 +7,7 @@ import useUser from "@libs/client/useUser";
 
 const Home: NextPage = () => {
   const user = useUser();
-  console.log(user);
+  console.log("!!!", user);
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {[1, 1, 1, 1, 1].map((_, index) => (
