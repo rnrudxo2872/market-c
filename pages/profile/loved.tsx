@@ -11,7 +11,7 @@ const Loved: NextPage = () => {
           className="flex border-b items-center border-stone-300 relative"
         >
           <section className="py-3 px-2">
-            <Link href={`/items/${index}`}>
+            <Link href={`/products/${index}`}>
               <a>
                 <div className="w-20 h-20 rounded-md bg-slate-400"></div>
               </a>
