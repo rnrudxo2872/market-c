@@ -7,6 +7,7 @@ import useMutation from "@libs/client/useMutation";
 import { joinClasses } from "@libs/common";
 import Layout from "@components/layout";
 import { useRouter } from "next/router";
+import InputWithLabel from "@components/labelInput";
 
 interface IEnterForm {
   email: string;
@@ -62,8 +63,6 @@ const Enter: NextPage = () => {
 
   function OnTokenValid(data: IConfirmForm) {
     if (tokenLoading) return;
-    console.log("now token proc...");
-    console.log(enterWatch());
     tokenMutation({ ...data, ...enterWatch() });
   }
 
@@ -73,8 +72,6 @@ const Enter: NextPage = () => {
       router.push("/");
     }
   }, [router, tokenData]);
-
-  console.log(enterData);
 
   return (
     <Layout>
@@ -141,41 +138,35 @@ const Enter: NextPage = () => {
                 </button>
               </div>
               <div className="space-y-2 mt-8">
-                <div>
-                  <label
-                    htmlFor="inputBox"
-                    className="font-semibold text-slate-500 select-none"
-                  >
-                    {path === "email" ? "Email address" : "Phone number"}
-                  </label>
-                </div>
                 <form
                   className="flex flex-col space-y-4"
                   onSubmit={enterSub(OnValid)}
                 >
-                  {path === "email" ? (
-                    <Input
-                      id="inputBox"
-                      type="email"
-                      register={enterReg("email", {
-                        required: {
-                          message: "string",
-                          value: true,
-                        },
-                      })}
-                    />
-                  ) : (
-                    <Input
-                      id="inputBox"
-                      type="phone"
-                      register={enterReg("phone", {
-                        required: {
-                          message: "string",
-                          value: true,
-                        },
-                      })}
-                    />
-                  )}
+                  <InputWithLabel
+                    {...(path === "email"
+                      ? {
+                          id: "inputBox",
+                          labelText: "Email address",
+                          register: enterReg("email", {
+                            required: {
+                              message: "string",
+                              value: true,
+                            },
+                          }),
+                          type: "email",
+                        }
+                      : {
+                          id: "inputBox",
+                          labelText: "Phone number",
+                          register: enterReg("phone", {
+                            required: {
+                              message: "string",
+                              value: true,
+                            },
+                          }),
+                          type: "phone",
+                        })}
+                  />
                   <BaseBtn OnClick={enterSub(OnValid)}>
                     {enterLoading
                       ? "now loging..."

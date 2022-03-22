@@ -35,6 +35,19 @@ const Upload: NextPage = () => {
       </div>
       <div className="flex flex-col gap-1">
         <label
+          htmlFor="price"
+          className="font-semibold text-slate-500 select-none"
+        >
+          가격
+        </label>
+        <input
+          type="text"
+          id="price"
+          className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow ring-amber-500 transition-shadow duration-300 px-2"
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label
           htmlFor="description"
           className="font-semibold text-slate-500 select-none"
         >
