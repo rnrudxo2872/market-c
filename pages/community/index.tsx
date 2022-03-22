@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import CommunityPost from "@components/communityPost";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
+import LaunchButton from "@components/launcherButton";
 
 const Community: NextPage = () => {
   return (
@@ -20,9 +21,9 @@ const Community: NextPage = () => {
           user="쿼카조아"
         />
       ))}
-      <button className="fixed bottom-24 right-5 rounded-full bg-amber-500 text-amber-500 p-3">
+      <LaunchButton href="/community/wirte">
         <svg
-          className="w-8 h-8 fill-white"
+          className="w-8 h-8 fill-white text-amber-500 group-hover:text-red-500"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -35,7 +36,7 @@ const Community: NextPage = () => {
             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
           ></path>
         </svg>
-      </button>
+      </LaunchButton>
     </Layout>
   );
 };

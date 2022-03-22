@@ -7,7 +7,7 @@ import useUser from "@libs/client/useUser";
 
 const Home: NextPage = () => {
   const user = useUser();
-  console.log("!!!", user);
+
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {[1, 1, 1, 1, 1].map((_, index) => (
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
           title="Galaxy S222"
         />
       ))}
-      <LaunchButton>
+      <LaunchButton href="/products/upload">
         <svg
           className="w-8 h-8 text-stone-100"
           xmlns="http://www.w3.org/2000/svg"
