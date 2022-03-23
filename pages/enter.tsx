@@ -18,6 +18,10 @@ interface IConfirmForm {
   token: string;
 }
 
+interface IResponse {
+  ok: boolean;
+}
+
 const Enter: NextPage = () => {
   const {
     register: enterReg,
@@ -35,13 +39,13 @@ const Enter: NextPage = () => {
     loading: enterLoading,
     data: enterData,
     error: enterError,
-  } = useMutation<IEnterForm>("/api/users/enter");
+  } = useMutation<IResponse, IEnterForm>("/api/users/enter");
   const {
     fetchMutation: tokenMutation,
     loading: tokenLoading,
     data: tokenData,
     error: tokenError,
-  } = useMutation<IConfirmForm>("/api/users/tokenConfirm");
+  } = useMutation<IResponse, IConfirmForm>("/api/users/tokenConfirm");
   const [isToken, setIsToken] = useState(false);
   const [path, setPath] = useState<"email" | "phone">("email");
   const router = useRouter();

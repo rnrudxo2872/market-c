@@ -1,22 +1,22 @@
 import { useState } from "react";
 
-interface IUseMutation<S> {
-  fetchMutation: (data: S | any) => void;
-  data: S | any;
+interface IUseMutation<S = unknown, T = unknown> {
+  fetchMutation: (data: T) => void;
+  data: S | undefined;
   loading: boolean;
   error: any;
 }
 
-type UseMutationResult<S> = IUseMutation<S>;
+type UseMutationResult<S, T> = IUseMutation<S, T>;
 
-export default function useMutation<S = any>(
+export default function useMutation<S = unknown, T = unknown>(
   url: string
-): UseMutationResult<S> {
+): UseMutationResult<S, T> {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [data, setData] = useState<S>();
 
-  function fetchMutation(data: S) {
+  function fetchMutation(data: T) {
     setLoading(true);
     fetch(url, {
       method: "POST",

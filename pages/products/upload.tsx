@@ -2,8 +2,14 @@ import BaseBtn from "@components/baseBtn";
 import InputWithLabel from "@components/labelInput";
 import TextAreaWithLabel from "@components/labelTextArea";
 import Layout from "@components/layout";
+import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
+
+interface UploadResponse {
+  ok: boolean;
+  post: number;
+}
 
 interface IUploadFormData {
   name: string;
@@ -13,9 +19,14 @@ interface IUploadFormData {
 
 const Upload: NextPage = () => {
   const { register, handleSubmit } = useForm<IUploadFormData>();
+  const { data, error, fetchMutation, loading } = useMutation<
+    UploadResponse,
+    IUploadFormData
+  >("/api/products");
 
   function onValid(data: IUploadFormData) {
     console.log(data);
+    fetchMutation(data);
   }
 
   return (
