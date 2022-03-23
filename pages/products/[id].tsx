@@ -8,7 +8,7 @@ import { getLocalMonetUnit } from "@libs/common";
 
 const Item: NextPage = () => {
   return (
-    <Layout hasBackBtn title={<BaseTitle title="제품상세" />}>
+    <Layout hasBackBtn title={"제품상세"}>
       <div className="flex flex-col px-2 mt-8">
         <section>
           <div className="h-96 bg-gray-400"></div>
