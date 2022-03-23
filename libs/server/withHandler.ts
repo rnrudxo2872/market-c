@@ -1,10 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-interface IWithConfig {
-  method: "GET" | "POST" | "DELETE";
-  fn: (req: NextApiRequest, res: NextApiResponse) => any;
-  isPublic?: boolean;
-}
+import { IWithConfig } from "./interfaces";
 
 export default function withHandler({
   method,

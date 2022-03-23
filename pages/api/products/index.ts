@@ -1,8 +1,12 @@
+import { IApiResponse } from "@libs/server/interfaces";
 import withHandler from "@libs/server/withHandler";
 import { withSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<IApiResponse>
+) {
   const {
     body: { name, description, price },
     session: { user },
