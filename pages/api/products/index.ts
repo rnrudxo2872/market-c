@@ -2,14 +2,35 @@ import withHandler from "@libs/server/withHandler";
 import { withSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    body,
+    body: { name, description, price },
     session: { user },
   } = req;
-  console.log(body);
 
-  res.status(200).end();
+  if (!user) {
+    return res.status(403).json({
+      ok: false,
+      error: "권한이 없습니다.",
+    });
+  }
+
+  const product = await client.product.create({
+    data: {
+      name,
+      description,
+      price: Number(price),
+      image: "xx",
+      user: { connect: { id: user.id } },
+    },
+  });
+
+  return res.status(200).json({
+    ok: true,
+    post: {
+      id: product.id,
+    },
+  });
 }
 
 export default withSession(withHandler({ method: "POST", fn: handler }));

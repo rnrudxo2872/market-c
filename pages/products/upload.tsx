@@ -4,11 +4,13 @@ import TextAreaWithLabel from "@components/labelTextArea";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface UploadResponse {
   ok: boolean;
-  post: number;
+  post: { id: number };
 }
 
 interface IUploadFormData {
@@ -18,16 +20,25 @@ interface IUploadFormData {
 }
 
 const Upload: NextPage = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<IUploadFormData>();
   const { data, error, fetchMutation, loading } = useMutation<
     UploadResponse,
     IUploadFormData
   >("/api/products");
 
-  function onValid(data: IUploadFormData) {
-    console.log(data);
-    fetchMutation(data);
+  function onValid(formData: IUploadFormData) {
+    if (loading) return;
+    console.log(formData);
+    fetchMutation(formData);
   }
+
+  useEffect(() => {
+    console.log("게시 데이터 -> ", data);
+    if (data && data.ok) {
+      router.replace(`/products/${data.post.id}`);
+    }
+  }, [data, router]);
 
   return (
     <Layout hasBackBtn title="거래 글쓰기">
@@ -84,7 +95,9 @@ const Upload: NextPage = () => {
             },
           })}
         />
-        <BaseBtn OnClick={() => {}}>상품 올리기</BaseBtn>
+        <BaseBtn OnClick={() => {}}>
+          {loading ? "게시하는 중..." : "상품 올리기"}
+        </BaseBtn>
       </form>
     </Layout>
   );
