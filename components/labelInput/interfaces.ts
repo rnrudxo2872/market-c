@@ -1,7 +1,8 @@
+import { TInput } from "@components/types";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 export interface IInputWithLabelProps {
-  type: "text" | "phone" | "email";
+  type: TInput;
   id: string;
   register: UseFormRegisterReturn;
   labelText: string;

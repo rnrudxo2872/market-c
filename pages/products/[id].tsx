@@ -3,7 +3,6 @@ import Link from "next/link";
 import BaseBtn from "@components/baseBtn";
 import Layout from "@components/layout";
 import RelatedProduct from "@components/relatedProduct";
-import BaseTitle from "@components/title";
 import { getLocalMonetUnit } from "@libs/common";
 
 const Item: NextPage = () => {

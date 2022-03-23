@@ -1,8 +1,9 @@
+import { TInput } from "@components/types";
 import { memo } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputProps {
-  type: "text" | "phone" | "email";
+  type: TInput;
   id: string;
   register: UseFormRegisterReturn;
 }
@@ -35,6 +36,14 @@ export default memo(function Input({ type, id, register }: IInputProps) {
         <input
           id={id}
           type="email"
+          className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-shadow duration-300 px-2"
+          {...register}
+        />
+      ) : null}
+      {type === "number" ? (
+        <input
+          id={id}
+          type="number"
           className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-shadow duration-300 px-2"
           {...register}
         />

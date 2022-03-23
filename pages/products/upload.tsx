@@ -5,12 +5,25 @@ import Layout from "@components/layout";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 
+interface IUploadFormData {
+  name: string;
+  price: string;
+  description: string;
+}
+
 const Upload: NextPage = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<IUploadFormData>();
+
+  function onValid(data: IUploadFormData) {
+    console.log(data);
+  }
 
   return (
     <Layout hasBackBtn title="거래 글쓰기">
-      <form className="py-10 flex flex-col gap-y-4">
+      <form
+        className="py-10 flex flex-col gap-y-4"
+        onSubmit={handleSubmit(onValid)}
+      >
         <label className="border-4 border-dashed border-gray-400 py-20 flex justify-center rounded-lg hover:border-amber-400 hover:text-yellow-500">
           <svg
             className="h-12 w-12"
@@ -41,9 +54,9 @@ const Upload: NextPage = () => {
         />
         <InputWithLabel
           id={"price"}
-          type={"text"}
+          type={"number"}
           labelText={"가격"}
-          register={register("name", {
+          register={register("price", {
             required: {
               value: true,
               message: "가격을 입력해 주세요.",
