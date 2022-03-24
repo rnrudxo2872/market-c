@@ -4,8 +4,27 @@ import BaseBtn from "@components/baseBtn";
 import Layout from "@components/layout";
 import RelatedProduct from "@components/relatedProduct";
 import { getLocalMonetUnit } from "@libs/common";
+import useSWR from "swr";
+import { useRouter } from "next/router";
+
+interface IGetProduct {
+  ok: boolean;
+  product: {
+    name: string;
+    description: string;
+    price: number;
+    userName: string;
+  };
+}
 
 const Item: NextPage = () => {
+  const {
+    query: { id: pageId },
+  } = useRouter();
+  const { data, error } = useSWR<IGetProduct>(
+    pageId ? `/api/products/${pageId}` : null
+  );
+
   return (
     <Layout hasBackBtn title={"제품상세"}>
       <div className="flex flex-col px-2 mt-8">
@@ -16,7 +35,7 @@ const Item: NextPage = () => {
           <div className="flex gap-2 border-b border-stone-400 py-3">
             <div className="w-10 h-10 rounded-full bg-gray-300" />
             <div className="flex flex-col leading-none">
-              <span>Mike Job</span>
+              <span>{data?.product.userName}</span>
               <Link href={`/user/${1}`}>
                 <a>
                   <span className="text-xs">View profile &rarr;</span>
@@ -25,19 +44,11 @@ const Item: NextPage = () => {
             </div>
           </div>
           <div>
-            <h1 className="text-2xl font-bold">iPhone</h1>
+            <h1 className="text-2xl font-bold">{data?.product.name}</h1>
             <p className="text-xl font-semibold">
-              {getLocalMonetUnit(140, "us")}
+              {data && getLocalMonetUnit(data.product.price, "us")}
             </p>
-            <span className="text-sm">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using, making it look like
-              readable English. Many desktop publishing packages and web page
-              editors now use Lorem Ipsum as their default model text, and a
-              search for will uncover many web sites still in their infancy.
-            </span>
+            <span className="text-sm">{data?.product.description}</span>
           </div>
           <div className="flex py-4">
             <BaseBtn OnClick={() => console.log("")}>판매자와 대화하기</BaseBtn>
