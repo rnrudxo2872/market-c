@@ -64,5 +64,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default withSession(
-  withHandler({ method: "POST", fn: handler, isPublic: true })
+  withHandler({ method: ["POST"], fn: handler, isPublic: true })
 );

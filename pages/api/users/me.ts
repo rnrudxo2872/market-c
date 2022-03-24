@@ -24,4 +24,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     : res.status(403).end();
 }
 
-export default withSession(withHandler({ method: "GET", fn: handler }));
+export default withSession(withHandler({ method: ["GET"], fn: handler }));

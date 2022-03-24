@@ -3,24 +3,38 @@ import { Item } from "@components/item";
 import LaunchButton from "@components/launcherButton";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
-import useUser from "@libs/client/useUser";
+import useSWR from "swr";
+
+interface IGetProducts {
+  ok: boolean;
+  products: [
+    {
+      id: number;
+      name: string;
+      price: string;
+      userName: string;
+    }
+  ];
+}
 
 const Home: NextPage = () => {
-  const user = useUser();
-
+  const { data, error } = useSWR<IGetProducts>("/api/products");
+  console.log(data);
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
-      {[1, 1, 1, 1, 1].map((_, index) => (
-        <Item
-          key={index}
-          id={index + ""}
-          comments={1}
-          hearts={1}
-          price={140 + ""}
-          seller="Eric"
-          title="Galaxy S222"
-        />
-      ))}
+      {data
+        ? data.products.map(({ id, name, userName, price }) => (
+            <Item
+              key={id}
+              id={id + ""}
+              comments={1}
+              hearts={1}
+              price={price}
+              seller={userName}
+              title={name}
+            />
+          ))
+        : "loading..."}
       <LaunchButton href="/products/upload">
         <svg
           className="w-8 h-8 text-stone-100"

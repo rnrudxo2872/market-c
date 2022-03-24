@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { IWithConfig } from "./interfaces";
+import { IWithConfig, RequestMethod } from "./interfaces";
 
 export default function withHandler({
   method,
@@ -7,12 +7,16 @@ export default function withHandler({
   isPublic = false,
 }: IWithConfig) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    if (method !== req.method) {
-      res.status(405).end();
+    if (!req.method) {
+      return res.status(400).end();
+    }
+
+    if (!method.includes(req.method as RequestMethod)) {
+      return res.status(405).end();
     }
 
     if (!isPublic && !req.session.user) {
-      res.status(403).json({
+      return res.status(403).json({
         ok: false,
         error: "You do not have permission.",
       });

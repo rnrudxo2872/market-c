@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export interface IWithConfig {
-  method: "GET" | "POST" | "DELETE";
+  method: RequestMethod[];
   fn: (req: NextApiRequest, res: NextApiResponse) => any;
   isPublic?: boolean;
 }
@@ -10,3 +10,5 @@ export interface IApiResponse {
   ok: boolean;
   [key: string]: any;
 }
+
+export type RequestMethod = "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
