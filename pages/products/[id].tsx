@@ -15,6 +15,10 @@ interface IGetProduct {
     price: number;
     userName: string;
   };
+  relatedProducts: {
+    name: string;
+    price: number;
+  }[];
 }
 
 const Item: NextPage = () => {

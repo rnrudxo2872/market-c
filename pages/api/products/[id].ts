@@ -26,6 +26,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .json({ ok: false, error: "제품에 대한 정보가 없습니다." });
   }
 
+  const relatedProducts = await client.product.findMany({
+    where: {
+      OR: product.name.split(" ").map((word) => ({
+        name: {
+          contains: word,
+        },
+      })),
+      NOT: {
+        id: product.id,
+      },
+    },
+  });
+
   return res.status(200).json({
     ok: true,
     product: {
@@ -34,6 +47,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       price: product.price,
       userName: product.user.name,
     },
+    relatedProducts: relatedProducts.map((product) => ({
+      name: product.name,
+      price: product.price,
+    })),
   });
 }
 
