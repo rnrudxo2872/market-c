@@ -6,6 +6,7 @@ import RelatedProduct from "@components/relatedProduct";
 import { getLocalMonetUnit } from "@libs/common";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import products from "pages/api/products";
 
 interface IGetProduct {
   ok: boolean;
@@ -16,6 +17,7 @@ interface IGetProduct {
     userName: string;
   };
   relatedProducts: {
+    id: number;
     name: string;
     price: number;
   }[];
@@ -77,11 +79,11 @@ const Item: NextPage = () => {
         <section className="mt-4">
           <h2 className="font-bold text-lg">비슷한 상품</h2>
           <section className="grid grid-cols-2 gap-x-2 gap-y-4 mt-4">
-            {[1, 1, 1, 1, 1].map((_, index) => (
+            {data?.relatedProducts.map((product) => (
               <RelatedProduct
-                key={index}
-                title={"Ultra Galaxy 20"}
-                price={"12"}
+                key={product.id}
+                title={product.name}
+                price={product.price + ""}
               />
             ))}
           </section>

@@ -48,6 +48,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       userName: product.user.name,
     },
     relatedProducts: relatedProducts.map((product) => ({
+      id: product.id,
       name: product.name,
       price: product.price,
     })),
