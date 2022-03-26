@@ -1,6 +1,6 @@
 import React from "react";
 
 export interface IBaseBtnProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   OnClick: () => void;
 }
