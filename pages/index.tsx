@@ -19,7 +19,7 @@ interface IGetProducts {
 
 const Home: NextPage = () => {
   const { data, error } = useSWR<IGetProducts>("/api/products");
-  console.log(data);
+
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {data

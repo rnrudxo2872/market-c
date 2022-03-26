@@ -7,6 +7,7 @@ import { getLocalMonetUnit } from "@libs/common";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import products from "pages/api/products";
+import useMutation from "@libs/client/useMutation";
 
 interface IGetProduct {
   ok: boolean;
@@ -30,6 +31,11 @@ const Item: NextPage = () => {
   const { data, error } = useSWR<IGetProduct>(
     pageId ? `/api/products/${pageId}` : null
   );
+  const { fetchMutation } = useMutation(`/api/products/${pageId}/like`);
+
+  function clickLIke() {
+    fetchMutation({});
+  }
 
   return (
     <Layout hasBackBtn title={"제품상세"}>
@@ -58,7 +64,7 @@ const Item: NextPage = () => {
           </div>
           <div className="flex py-4">
             <BaseBtn OnClick={() => console.log("")}>판매자와 대화하기</BaseBtn>
-            <button className="px-4">
+            <button className="px-4" onClick={clickLIke}>
               <svg
                 className="w-5 h-5 text-stone-400"
                 fill="none"
