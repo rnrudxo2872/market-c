@@ -5,12 +5,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     query: { id },
+    session: { user },
   } = req;
 
-  if (!id) {
+  if (!id || !user) {
     return res.status(400).json({ ok: false, error: "잘못된 요청입니다." });
   }
 
+  //상품정보
   const product = await client.product.findUnique({
     where: {
       id: +id,
@@ -26,6 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .json({ ok: false, error: "제품에 대한 정보가 없습니다." });
   }
 
+  //관련상품
   const relatedProducts = await client.product.findMany({
     where: {
       OR: product.name.split(" ").map((word) => ({
@@ -38,6 +41,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
+
+  //좋아요 표시
+  const isLike = Boolean(
+    await client.productLike.findFirst({
+      where: {
+        userId: user.id,
+        productId: product.id,
+      },
+    })
+  );
 
   return res.status(200).json({
     ok: true,
@@ -52,6 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       name: product.name,
       price: product.price,
     })),
+    isLike,
   });
 }
 

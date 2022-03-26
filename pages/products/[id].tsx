@@ -6,7 +6,6 @@ import RelatedProduct from "@components/relatedProduct";
 import { getLocalMonetUnit } from "@libs/common";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import products from "pages/api/products";
 import useMutation from "@libs/client/useMutation";
 import HeartBtn from "@components/heartBtn";
 
@@ -23,6 +22,7 @@ interface IGetProduct {
     name: string;
     price: number;
   }[];
+  isLike: boolean;
 }
 
 const Item: NextPage = () => {
@@ -34,7 +34,7 @@ const Item: NextPage = () => {
   );
   const { fetchMutation } = useMutation(`/api/products/${pageId}/like`);
 
-  function clickLIke() {
+  function clickLike() {
     fetchMutation({});
   }
 
@@ -65,7 +65,7 @@ const Item: NextPage = () => {
           </div>
           <div className="flex py-4">
             <BaseBtn OnClick={() => console.log("")}>판매자와 대화하기</BaseBtn>
-            <HeartBtn OnClick={clickLIke} />
+            <HeartBtn OnClick={clickLike} isOn={data?.isLike} />
           </div>
         </section>
         <section className="mt-4">
