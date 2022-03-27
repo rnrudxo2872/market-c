@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Item } from "@components/item";
+import HomeItem from "@components/item";
 import LaunchButton from "@components/launcherButton";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
@@ -24,10 +24,9 @@ const Home: NextPage = () => {
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {data
         ? data.products.map(({ id, name, userName, price }) => (
-            <Item
+            <HomeItem
               key={id}
               id={id + ""}
-              comments={1}
               hearts={1}
               price={price}
               seller={userName}
