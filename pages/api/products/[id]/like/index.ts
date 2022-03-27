@@ -8,11 +8,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id: productId },
     session: { user },
   } = req;
-  const like = await client.productLike.findFirst({
-    where: {
-      productId: +productId,
-    },
-  });
 
   if (!user) {
     return res.status(401).json({
@@ -20,6 +15,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       error: "권한이 없습니다.",
     });
   }
+
+  const like = await client.productLike.findFirst({
+    where: {
+      userId: user.id,
+      productId: +productId,
+    },
+  });
 
   like
     ? await client.productLike.delete({

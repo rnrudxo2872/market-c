@@ -9,16 +9,32 @@ async function handler(
   res: NextApiResponse<IApiResponse>
 ) {
   if (req.method === "GET") {
-    const products = await client.product.findMany({ include: { user: true } });
+    const products = await client.product.findMany({
+      include: {
+        user: true,
+        _count: {
+          select: {
+            like: true,
+          },
+        },
+      },
+    });
 
     return res.status(200).json({
       ok: true,
       products: products.map(
-        ({ id, name, price, user: { name: userName } }) => ({
+        ({
+          id,
+          name,
+          price,
+          user: { name: userName },
+          _count: { like: likes },
+        }) => ({
           id,
           name,
           price,
           userName,
+          likes,
         })
       ),
     });

@@ -4,7 +4,7 @@ import BaseBtn from "@components/baseBtn";
 import Layout from "@components/layout";
 import RelatedProduct from "@components/relatedProduct";
 import { getLocalMonetUnit } from "@libs/common";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import useMutation from "@libs/client/useMutation";
 import HeartBtn from "@components/heartBtn";
@@ -29,14 +29,36 @@ const Item: NextPage = () => {
   const {
     query: { id: pageId },
   } = useRouter();
-  const { data, error, mutate } = useSWR<IGetProduct>(
-    pageId ? `/api/products/${pageId}` : null
-  );
+  const {
+    data,
+    error,
+    mutate: DetailPageMutate,
+  } = useSWR<IGetProduct>(pageId ? `/api/products/${pageId}` : null);
   const { fetchMutation } = useMutation(`/api/products/${pageId}/like`);
 
   function clickLike() {
+    if (!data) return;
     fetchMutation({});
-    mutate((prev: any) => prev && { ...prev, isLike: !prev.isLike }, false);
+
+    const isLike = data.isLike;
+    mutate(
+      "/api/products",
+      (prev: any) =>
+        prev && {
+          ...prev,
+          products: prev.products.map((product: any) => {
+            if (data && product.id === Number(pageId)) {
+              isLike ? product.likes-- : product.likes++;
+            }
+            return product;
+          }),
+        },
+      false
+    );
+    DetailPageMutate(
+      (prev) => prev && { ...prev, isLike: !prev.isLike },
+      false
+    );
   }
 
   return (

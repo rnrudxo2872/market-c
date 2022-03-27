@@ -13,6 +13,7 @@ interface IGetProducts {
       name: string;
       price: string;
       userName: string;
+      likes: number;
     }
   ];
 }
@@ -23,11 +24,11 @@ const Home: NextPage = () => {
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
       {data
-        ? data.products.map(({ id, name, userName, price }) => (
+        ? data.products.map(({ id, name, userName, price, likes }) => (
             <HomeItem
               key={id}
               id={id + ""}
-              hearts={1}
+              hearts={likes}
               price={price}
               seller={userName}
               title={name}
