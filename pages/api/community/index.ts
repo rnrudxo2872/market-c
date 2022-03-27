@@ -4,29 +4,60 @@ import { withSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {
-    session: { user },
-    body: { content },
-  } = req;
+  if (req.method === "GET") {
+    const communityPosts = await client.communityPost.findMany({
+      include: {
+        user: true,
+        _count: {
+          select: {
+            answer: true,
+            wonder: true,
+          },
+        },
+      },
+    });
 
-  if (!user || !content) {
-    return res.status(402).json({
-      ok: false,
-      error: "옳지않은 요청입니다.",
+    return res.status(200).json({
+      ok: true,
+      posts: communityPosts.map(
+        ({ id, content, user: { name }, _count: { answer, wonder } }) => ({
+          id,
+          content,
+          userName: name,
+          answers: answer,
+          wonders: wonder,
+        })
+      ),
     });
   }
 
-  const communityPost = await client.communityPost.create({
-    data: {
-      content,
-      userId: user.id,
-    },
-  });
+  if (req.method === "POST") {
+    const {
+      session: { user },
+      body: { content },
+    } = req;
 
-  return res.status(201).json({
-    ok: true,
-    postId: communityPost.id,
-  });
+    if (!user || !content) {
+      return res.status(402).json({
+        ok: false,
+        error: "옳지않은 요청입니다.",
+      });
+    }
+
+    const communityPost = await client.communityPost.create({
+      data: {
+        content,
+        userId: user.id,
+      },
+    });
+
+    return res.status(201).json({
+      ok: true,
+      postId: communityPost.id,
+    });
+  }
 }
 
-export default withSession(withHandler({ method: ["POST"], fn: handler }));
+export default withSession(
+  withHandler({ method: ["GET", "POST"], fn: handler })
+);

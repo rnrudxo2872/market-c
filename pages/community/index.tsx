@@ -3,24 +3,40 @@ import CommunityPost from "@components/communityPost";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
 import LaunchButton from "@components/launcherButton";
+import useSWR from "swr";
+
+interface IPost {
+  id: number;
+  content: string;
+  userName: string;
+  answers: number;
+  wonders: number;
+}
+
+interface IGetPostResponse {
+  ok: boolean;
+  posts: IPost[];
+}
 
 const Community: NextPage = () => {
+  const { data } = useSWR<IGetPostResponse>("/api/community");
+
   return (
     <Layout title={<BaseTitle title="동네생활" />} hasTabBar>
-      {[1, 1, 1, 1, 1].map((_, index) => (
-        <CommunityPost
-          key={index}
-          id={index + ""}
-          title="조원동 근처에 고오스, 초코볼, 꼬부기 제외 포켓몬빵 어디에 파는지
-        아시나요?ㅠㅜㅜ 다른맛 궁금해여"
-          comment={2}
-          like={1}
-          local="조원동"
-          publishedAt="28분 전"
-          type="동네질문"
-          user="쿼카조아"
-        />
-      ))}
+      {data &&
+        data.posts.map(({ id, content, userName, wonders, answers }) => (
+          <CommunityPost
+            key={id}
+            id={id.toString()}
+            title={content}
+            comment={answers}
+            like={wonders}
+            local="조원동"
+            publishedAt="28분 전"
+            type="동네질문"
+            user={userName}
+          />
+        ))}
       <LaunchButton href="/community/write">
         <svg
           className="w-8 h-8 fill-white text-amber-500 group-hover:text-red-500"
