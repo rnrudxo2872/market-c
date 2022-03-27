@@ -36,7 +36,7 @@ const Item: NextPage = () => {
 
   function clickLike() {
     fetchMutation({});
-    mutate((prev) => prev && { ...prev, isLike: !prev.isLike });
+    mutate((prev: any) => prev && { ...prev, isLike: !prev.isLike }, false);
   }
 
   return (
