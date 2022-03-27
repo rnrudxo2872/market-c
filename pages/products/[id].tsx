@@ -29,13 +29,14 @@ const Item: NextPage = () => {
   const {
     query: { id: pageId },
   } = useRouter();
-  const { data, error } = useSWR<IGetProduct>(
+  const { data, error, mutate } = useSWR<IGetProduct>(
     pageId ? `/api/products/${pageId}` : null
   );
   const { fetchMutation } = useMutation(`/api/products/${pageId}/like`);
 
   function clickLike() {
     fetchMutation({});
+    mutate((prev) => prev && { ...prev, isLike: !prev.isLike });
   }
 
   return (
