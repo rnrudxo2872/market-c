@@ -1,8 +1,5 @@
-import { UseFormRegisterReturn } from "react-hook-form";
+import { ITextAreaProps } from "@components/textArea/interfaces";
 
-export interface ITextAreaWithLabelProps {
-  id: string;
-  register: UseFormRegisterReturn;
+export interface ITextAreaWithLabelProps extends ITextAreaProps {
   labelText: string;
-  rows?: number;
 }

@@ -21,7 +21,7 @@ const Community: NextPage = () => {
           user="쿼카조아"
         />
       ))}
-      <LaunchButton href="/community/wirte">
+      <LaunchButton href="/community/write">
         <svg
           className="w-8 h-8 fill-white text-amber-500 group-hover:text-red-500"
           fill="none"
