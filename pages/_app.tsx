@@ -5,7 +5,20 @@ import { SWRConfig } from "swr";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
-      value={{ fetcher: (url) => fetch(url).then((res) => res.json()) }}
+      value={{
+        fetcher: async (url) => {
+          const res = await fetch(url);
+
+          if (!res.ok) {
+            throw {
+              info: res.body,
+              status: res.status,
+            };
+          }
+
+          return res.json();
+        },
+      }}
     >
       <Component {...pageProps} />
     </SWRConfig>
