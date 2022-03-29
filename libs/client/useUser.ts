@@ -7,7 +7,7 @@ export default function useUser() {
   const router = useRouter();
 
   useEffect(() => {
-    if (error || data?.ok) router.replace("/enter");
+    if (error || (data && !data?.ok)) router.replace("/enter");
   }, [data, error, router]);
 
   return data && !error
