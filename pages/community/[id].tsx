@@ -6,9 +6,36 @@ import PostUser from "@components/profile/postUser";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 
+interface IPost {
+  id: number;
+  content: string;
+  user: {
+    id: number;
+    name: string;
+    avatar: string | null;
+  };
+  userId: number;
+  answer: {
+    content: string;
+    user: {
+      name: string;
+      email: string;
+      id: number;
+    };
+  }[];
+  _count: {
+    wonder: number;
+  };
+}
+
+interface IGetPostResponse {
+  ok: boolean;
+  post: IPost;
+}
+
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<IGetPostResponse>(
     router.query.id ? `/api/community/${router.query.id}` : null
   );
 
