@@ -22,6 +22,13 @@ export default function withHandler({
       });
     }
 
+    if (isPublic && req.session.user) {
+      return res.status(403).json({
+        ok: false,
+        error: "Only anonymous users can use it.",
+      });
+    }
+
     try {
       await fn(req, res);
     } catch (err) {

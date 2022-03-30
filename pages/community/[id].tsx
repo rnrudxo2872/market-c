@@ -3,8 +3,17 @@ import BaseBtn from "@components/baseBtn";
 import PostStat from "@components/communityPost/postStat";
 import Layout from "@components/layout";
 import PostUser from "@components/profile/postUser";
+import useSWR from "swr";
+import { useRouter } from "next/router";
 
 const CommunityPostDetail: NextPage = () => {
+  const router = useRouter();
+  const { data, error } = useSWR(
+    router.query.id ? `/api/community/${router.query.id}` : null
+  );
+
+  console.log(data);
+
   return (
     <Layout hasBackBtn>
       <div className="pt-5">
@@ -17,7 +26,7 @@ const CommunityPostDetail: NextPage = () => {
           <div>
             <div className="border-b border-stone-400 pb-3">
               <PostUser
-                name="Mike Job"
+                name={data?.post ? data.post.user.name : ""}
                 option={
                   <div className="flex gap-1 text-xs text-gray-500">
                     <div>
@@ -35,9 +44,7 @@ const CommunityPostDetail: NextPage = () => {
           </div>
         </section>
         <article className="py-4 space-y-6 border-b border-gray-300">
-          <section>
-            <p>혹시 신도림 근처에 테니스 배울만한 곳 있을까요?</p>
-          </section>
+          <section>{data?.post ? data.post.content : ""}</section>
           <section className="flex items-center gap-1 text-xs text-gray-500 fill-gray-500">
             <svg
               viewBox="0 0 24 24"
