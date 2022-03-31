@@ -1,10 +1,14 @@
 import { NextPage } from "next";
 import BaseBtn from "@components/baseBtn";
 import PostStat from "@components/communityPost/postStat";
+import TextArea from "@components/textArea";
 import Layout from "@components/layout";
 import PostUser from "@components/profile/postUser";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import useMutation from "@libs/client/useMutation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 interface IPost {
   id: number;
@@ -33,13 +37,39 @@ interface IGetPostResponse {
   post: IPost;
 }
 
+interface IReqAnswer {
+  content: string;
+}
+
+interface IResAnswer {
+  ok: boolean;
+}
+
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR<IGetPostResponse>(
+  const { data, error, mutate } = useSWR<IGetPostResponse>(
     router.query.id ? `/api/community/${router.query.id}` : null
   );
+  const {
+    data: mutationData,
+    fetchMutation,
+    loading,
+  } = useMutation<IResAnswer, IReqAnswer>(
+    `/api/community/${router.query.id}/answer`
+  );
+  const { handleSubmit, register, reset } = useForm<IReqAnswer>();
 
-  console.log(data);
+  function onValidAnswer(data: IReqAnswer) {
+    if (loading) return;
+    fetchMutation(data);
+  }
+
+  useEffect(() => {
+    if (mutationData && mutationData.ok) {
+      reset();
+      mutate();
+    }
+  }, [mutate, mutationData, reset]);
 
   return (
     <Layout hasBackBtn>
@@ -115,12 +145,24 @@ const CommunityPostDetail: NextPage = () => {
             : null}
         </section>
         <section className="flex flex-col gap-2 pb-4 ">
-          <textarea
-            id="description"
-            rows={3}
-            className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow ring-amber-500 transition-shadow duration-300 px-2"
-          />
-          <BaseBtn OnClick={() => console.log("")}> 댓글 쓰기</BaseBtn>
+          <form
+            onSubmit={handleSubmit(onValidAnswer)}
+            className="flex flex-col space-y-5"
+          >
+            <TextArea
+              id="content"
+              rows={4}
+              register={register("content", {
+                minLength: {
+                  value: 3,
+                  message: "최소 3글자 이상입니다!",
+                },
+              })}
+            ></TextArea>
+            <BaseBtn OnClick={() => console.log("")}>
+              {loading ? "글 작성 중..." : "댓글 쓰기"}
+            </BaseBtn>
+          </form>
         </section>
       </div>
     </Layout>
