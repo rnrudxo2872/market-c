@@ -92,28 +92,27 @@ const CommunityPostDetail: NextPage = () => {
           <PostStat comment={2} like={1} />
         </section>
         <section className="pt-3.5">
-          {[1, 1, 1, 1].map((_, index) => (
-            <div key={index}>
-              <div className="flex gap-2 pb-6 ">
-                <PostUser
-                  name="죠니"
-                  option={
-                    <div className="flex flex-col leading-none">
-                      <div className="flex gap-1 text-xs text-gray-500 pb-1">
-                        <span>영등포구 도림동</span>
-                        <span>•</span>
-                        <span>1시간 전</span>
-                      </div>
-                      <p>
-                        도림천역에 신도림테니스장에서
-                        레슨하더라구요(구로구시설관리공단에 문의해보세요)
-                      </p>
-                    </div>
-                  }
-                />
-              </div>
-            </div>
-          ))}
+          {data?.post
+            ? data.post.answer.map((answer, index) => (
+                <div key={index}>
+                  <div className="flex gap-2 pb-6 ">
+                    <PostUser
+                      name={answer.user.name}
+                      option={
+                        <div className="flex flex-col leading-none">
+                          <div className="flex gap-1 text-xs text-gray-500 pb-1">
+                            <span>영등포구 도림동</span>
+                            <span>•</span>
+                            <span>1시간 전</span>
+                          </div>
+                          <p>{answer.content}</p>
+                        </div>
+                      }
+                    />
+                  </div>
+                </div>
+              ))
+            : null}
         </section>
         <section className="flex flex-col gap-2 pb-4 ">
           <textarea
