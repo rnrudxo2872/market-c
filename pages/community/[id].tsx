@@ -20,6 +20,7 @@ interface IPost {
   };
   userId: number;
   answer: {
+    id: number;
     content: string;
     user: {
       name: string;
@@ -70,7 +71,7 @@ const CommunityPostDetail: NextPage = () => {
       mutate();
     }
   }, [mutate, mutationData, reset]);
-
+  console.log(data?.post.answer);
   return (
     <Layout hasBackBtn>
       <div className="pt-5">
@@ -119,7 +120,10 @@ const CommunityPostDetail: NextPage = () => {
           </section>
         </article>
         <section className="border-b border-gray-300">
-          <PostStat comment={2} like={1} />
+          <PostStat
+            comment={data ? data?.post.answer.length : 0}
+            like={data ? data?.post._count.wonder : 0}
+          />
         </section>
         <section className="pt-3.5">
           {data?.post
@@ -135,7 +139,11 @@ const CommunityPostDetail: NextPage = () => {
                             <span>•</span>
                             <span>1시간 전</span>
                           </div>
-                          <p>{answer.content}</p>
+                          {answer.content.split("\n").map((content, index) => (
+                            <p key={`answer-${answer.id}/${index}`}>
+                              {content}
+                            </p>
+                          ))}
                         </div>
                       }
                     />
