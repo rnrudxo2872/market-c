@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import useMutation from "@libs/client/useMutation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Comment from "@components/comment";
 
 interface IPost {
   id: number;
@@ -128,27 +129,12 @@ const CommunityPostDetail: NextPage = () => {
         <section className="pt-3.5">
           {data?.post
             ? data.post.answer.map((answer, index) => (
-                <div key={index}>
-                  <div className="flex gap-2 pb-6 ">
-                    <PostUser
-                      name={answer.user.name}
-                      option={
-                        <div className="flex flex-col leading-none">
-                          <div className="flex gap-1 text-xs text-gray-500 pb-1">
-                            <span>영등포구 도림동</span>
-                            <span>•</span>
-                            <span>1시간 전</span>
-                          </div>
-                          {answer.content.split("\n").map((content, index) => (
-                            <p key={`answer-${answer.id}/${index}`}>
-                              {content}
-                            </p>
-                          ))}
-                        </div>
-                      }
-                    />
-                  </div>
-                </div>
+                <Comment
+                  key={index}
+                  user={answer.user}
+                  content={answer.content}
+                  id={answer.id}
+                ></Comment>
               ))
             : null}
         </section>
