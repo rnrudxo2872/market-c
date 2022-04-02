@@ -10,6 +10,7 @@ import useMutation from "@libs/client/useMutation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Comment from "@components/comment";
+import PostText from "@components/postText";
 
 interface IPost {
   id: number;
@@ -49,7 +50,7 @@ interface IResAnswer {
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error, mutate } = useSWR<IGetPostResponse>(
+  const { data, mutate } = useSWR<IGetPostResponse>(
     router.query.id ? `/api/community/${router.query.id}` : null
   );
   const {
@@ -72,7 +73,7 @@ const CommunityPostDetail: NextPage = () => {
       mutate();
     }
   }, [mutate, mutationData, reset]);
-  console.log(data?.post.answer);
+
   return (
     <Layout hasBackBtn>
       <div className="pt-5">
@@ -103,7 +104,16 @@ const CommunityPostDetail: NextPage = () => {
           </div>
         </section>
         <article className="py-4 space-y-6 border-b border-gray-300">
-          <section>{data?.post ? data.post.content : ""}</section>
+          <section>
+            {data?.post ? (
+              <PostText
+                postId={`post/main`}
+                text={data.post.content}
+              ></PostText>
+            ) : (
+              ""
+            )}
+          </section>
           <section className="flex items-center gap-1 text-xs text-gray-500 fill-gray-500">
             <svg
               viewBox="0 0 24 24"
