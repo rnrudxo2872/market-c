@@ -37,7 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       body: { content },
     } = req;
 
-    if (!user || !content) {
+    if (!content) {
       return res.status(402).json({
         ok: false,
         error: "옳지않은 요청입니다.",
@@ -47,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const communityPost = await client.communityPost.create({
       data: {
         content,
-        userId: user.id,
+        userId: user!.id,
       },
     });
 

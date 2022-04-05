@@ -46,20 +46,13 @@ async function handler(
       session: { user },
     } = req;
 
-    if (!user) {
-      return res.status(403).json({
-        ok: false,
-        error: "권한이 없습니다.",
-      });
-    }
-
     const product = await client.product.create({
       data: {
         name,
         description,
         price: Number(price),
         image: "xx",
-        user: { connect: { id: user.id } },
+        user: { connect: { id: user!.id } },
       },
     });
 

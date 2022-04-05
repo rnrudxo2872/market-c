@@ -9,12 +9,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
   } = req;
 
-  if (!user) {
-    return res.status(402).json({
-      ok: false,
-      error: "권한이 없습니다.",
-    });
-  }
   if (!id || id.length === 0) {
     return res.status(500).json({
       ok: false,
@@ -25,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const isExist = await client.wonder.findFirst({
     where: {
       communityPostId: Number(id.toString()),
-      userId: user.id,
+      userId: user!.id,
     },
   });
 
@@ -44,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const created = await client.wonder.create({
     data: {
       communityPostId: Number(id.toString()),
-      userId: user.id,
+      userId: user!.id,
     },
   });
 

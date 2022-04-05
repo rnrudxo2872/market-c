@@ -10,17 +10,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
   } = req;
 
-  if (!user) {
-    return res.status(400).json({
-      ok: false,
-      erorr: "권한이 없습니다.",
-    });
-  }
-
   const answer = await client.answer.create({
     data: {
       content,
-      userId: user.id,
+      userId: user!.id,
       communityPostId: Number(id.toString()),
     },
   });

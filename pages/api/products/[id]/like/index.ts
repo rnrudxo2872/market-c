@@ -9,17 +9,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     session: { user },
   } = req;
 
-  if (!user) {
-    return res.status(401).json({
-      ok: false,
-      error: "권한이 없습니다.",
-    });
-  }
-
   const like = await client.productLike.findFirst({
     where: {
-      userId: user.id,
-      productId: +productId,
+      userId: user!.id,
+      productId: Number(productId),
     },
   });
 
@@ -31,8 +24,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
     : await client.productLike.create({
         data: {
-          userId: user.id,
-          productId: +productId,
+          userId: user!.id,
+          productId: Number(productId),
         },
       });
 

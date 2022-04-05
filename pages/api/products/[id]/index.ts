@@ -8,7 +8,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     session: { user },
   } = req;
 
-  if (!id || !user) {
+  if (!id || id.length === 0) {
     return res.status(400).json({ ok: false, error: "잘못된 요청입니다." });
   }
 
@@ -46,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const isLike = Boolean(
     await client.productLike.findFirst({
       where: {
-        userId: user.id,
+        userId: user!.id,
         productId: product.id,
       },
     })
