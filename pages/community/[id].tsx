@@ -80,7 +80,13 @@ const CommunityPostDetail: NextPage = () => {
       reset();
       mutate();
     }
-  }, [mutate, mutationData, reset]);
+
+    if (wonderData && wonderData.ok) {
+      mutate();
+    }
+  }, [mutate, mutationData, reset, wonderData]);
+
+  useEffect(() => {}, [mutate, wonderData]);
 
   return (
     <Layout hasBackBtn>

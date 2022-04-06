@@ -24,7 +24,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (isExist) {
-    console.log("존재 ", isExist);
     await client.wonder.delete({
       where: {
         id: isExist.id,
@@ -42,7 +41,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  console.log("생성 ", created);
   return res.status(201).json({
     ok: true,
   });
