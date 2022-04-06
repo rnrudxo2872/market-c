@@ -37,6 +37,7 @@ interface IPost {
 interface IGetPostResponse {
   ok: boolean;
   post: IPost;
+  isWonder: boolean;
 }
 
 interface IReqAnswer {
@@ -71,7 +72,23 @@ const CommunityPostDetail: NextPage = () => {
   }
 
   function clickWonder() {
-    if (wonderLoading) return;
+    if (!data) return;
+    console.log(data);
+    mutate(
+      {
+        ...data,
+        post: {
+          ...data.post,
+          _count: {
+            wonder: data.isWonder
+              ? data.post._count.wonder - 1
+              : data.post._count.wonder + 1,
+          },
+        },
+        isWonder: !data.isWonder,
+      },
+      false
+    );
     wonderMutation({});
   }
 
@@ -80,13 +97,7 @@ const CommunityPostDetail: NextPage = () => {
       reset();
       mutate();
     }
-
-    if (wonderData && wonderData.ok) {
-      mutate();
-    }
-  }, [mutate, mutationData, reset, wonderData]);
-
-  useEffect(() => {}, [mutate, wonderData]);
+  }, [mutate, mutationData, reset]);
 
   return (
     <Layout hasBackBtn>

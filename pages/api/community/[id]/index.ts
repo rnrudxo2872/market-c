@@ -5,16 +5,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    session,
+    session: { user },
     query: { id },
   } = req;
-
-  if (!session.user) {
-    return res.status(403).json({
-      ok: false,
-      error: "권한이 없습니다.",
-    });
-  }
 
   if (!id) {
     return res.status(403).json({
@@ -57,9 +50,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 
+  const isWonder = Boolean(
+    await client.wonder.findFirst({
+      where: {
+        userId: user?.id,
+        AND: {
+          communityPostId: Number(id.toString()),
+        },
+      },
+    })
+  );
+
   return res.status(200).json({
     ok: true,
     post,
+    isWonder,
   });
 }
 

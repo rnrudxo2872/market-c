@@ -1,7 +1,10 @@
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { withSession } from "@libs/server/withSession";
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+
+const prisma = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -21,26 +24,42 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       communityPostId: Number(id.toString()),
       userId: user!.id,
     },
+    select: {
+      id: true,
+    },
+  });
+  console.log("isExist? --> ", isExist);
+
+  const deleted = client.wonder.deleteMany({
+    where: {
+      communityPostId: Number(id.toString()),
+      userId: user?.id,
+    },
   });
 
   if (isExist) {
-    await client.wonder.delete({
-      where: {
-        id: isExist.id,
-      },
-    });
+    await prisma.$transaction([deleted]);
     return res.status(201).json({
       ok: true,
     });
   }
 
-  const created = await client.wonder.create({
+  const created = client.wonder.create({
     data: {
-      communityPostId: Number(id.toString()),
-      userId: user!.id,
+      user: {
+        connect: {
+          id: user!.id,
+        },
+      },
+      communityPost: {
+        connect: {
+          id: Number(id.toString()),
+        },
+      },
     },
   });
 
+  await prisma.$transaction([deleted, created]);
   return res.status(201).json({
     ok: true,
   });
