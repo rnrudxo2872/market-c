@@ -1,5 +1,6 @@
 import Layout from "@components/layout";
 import TextArea from "@components/textArea";
+import useCoord from "@libs/client/useCoord";
 import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -8,6 +9,10 @@ import { useForm } from "react-hook-form";
 
 interface IWritePost {
   content: string;
+  coords: {
+    latitude: number | null;
+    longitude: number | null;
+  };
 }
 
 interface IResponse {
@@ -21,12 +26,15 @@ const CommunityWrite: NextPage = () => {
     data: postResponse,
     fetchMutation,
     loading,
-  } = useMutation<IResponse>("/api/community");
+  } = useMutation<IResponse, IWritePost>("/api/community");
   const router = useRouter();
-
+  const ee = useCoord();
+  const { latitude, longitude, loading: coordLoading } = ee;
+  console.log(ee);
   function OnValid(data: IWritePost) {
-    if (loading) return;
-    fetchMutation({ content: data.content });
+    if (loading || coordLoading) return;
+    console.log(latitude, longitude);
+    fetchMutation({ content: data.content, coords: { latitude, longitude } });
   }
 
   useEffect(() => {
@@ -58,7 +66,11 @@ const CommunityWrite: NextPage = () => {
           })}
         />
         <button className="bg-yellow-500 text-stone-100 text-sm font-semibold py-2 rounded-lg border-[1px] shadow-md w-full">
-          {loading ? "글쓰기 중..." : "글쓰기"}
+          {coordLoading
+            ? "사용자 좌표 설정중..."
+            : loading
+            ? "글쓰기 중..."
+            : "글쓰기"}
         </button>
       </form>
     </Layout>

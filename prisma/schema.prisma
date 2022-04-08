@@ -65,6 +65,8 @@ model CommunityPost {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   content   String   @db.MediumText
+  latitude  Float?   @db.Double
+  longitude Float?   @db.Double
   wonder    Wonder[]
   answer    Answer[]
   createdAt DateTime @default(now())

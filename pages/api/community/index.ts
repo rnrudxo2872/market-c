@@ -34,9 +34,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const {
       session: { user },
-      body: { content },
+      body: {
+        content,
+        coords: { latitude, longitude },
+      },
     } = req;
-
+    console.log(req.body);
     if (!content) {
       return res.status(402).json({
         ok: false,
@@ -48,6 +51,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       data: {
         content,
         userId: user!.id,
+        latitude,
+        longitude,
       },
     });
 
