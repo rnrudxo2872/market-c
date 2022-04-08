@@ -4,6 +4,7 @@ import Layout from "@components/layout";
 import BaseTitle from "@components/title";
 import LaunchButton from "@components/launcherButton";
 import useSWR from "swr";
+import useCoord from "@libs/client/useCoord";
 
 interface IPost {
   id: number;
@@ -19,7 +20,12 @@ interface IGetPostResponse {
 }
 
 const Community: NextPage = () => {
-  const { data } = useSWR<IGetPostResponse>("/api/community");
+  const { latitude, longitude, loading } = useCoord();
+  const { data } = useSWR<IGetPostResponse>(
+    loading
+      ? null
+      : `/api/community?latitude=${latitude}&longitude=${longitude}`
+  );
 
   return (
     <Layout title={<BaseTitle title="동네생활" />} hasTabBar>

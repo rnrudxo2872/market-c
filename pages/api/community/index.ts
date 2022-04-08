@@ -5,7 +5,24 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
+    const {
+      query: { latitude, longitude },
+    } = req;
+    const lat = Number(latitude.toString());
+    const long = Number(longitude.toString());
+    const RANGE_CONST = 0.01;
+
     const communityPosts = await client.communityPost.findMany({
+      where: {
+        latitude: {
+          gte: lat - RANGE_CONST,
+          lte: lat + RANGE_CONST,
+        },
+        longitude: {
+          gte: long - RANGE_CONST,
+          lte: long + RANGE_CONST,
+        },
+      },
       include: {
         user: true,
         _count: {
