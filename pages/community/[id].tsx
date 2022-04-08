@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Comment from "@components/comment";
 import PostText from "@components/postText";
+import { joinClasses } from "@libs/common";
 
 interface IPost {
   id: number;
@@ -73,7 +74,6 @@ const CommunityPostDetail: NextPage = () => {
 
   function clickWonder() {
     if (!data) return;
-    console.log(data);
     mutate(
       {
         ...data,
@@ -158,7 +158,10 @@ const CommunityPostDetail: NextPage = () => {
         <section className="border-b border-gray-300">
           <section className="flex gap-4 items-center">
             <button
-              className="flex gap-1 items-center py-2"
+              className={joinClasses(
+                "flex gap-1 items-center py-2",
+                data?.isWonder ? "text-yellow-500" : ""
+              )}
               onClick={clickWonder}
             >
               <svg
