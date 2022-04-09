@@ -4,15 +4,49 @@ import Layout from "@components/layout";
 import Stars from "@components/stars";
 import BaseTitle from "@components/title";
 import PostUser from "@components/profile/postUser";
+import useSWR from "swr";
+
+interface IResUserData {
+  ok: boolean;
+  profile: {
+    id: number;
+    phone: string | null;
+    email: string | null;
+    name: string;
+    avatar: string | null;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+interface IResUserReviews {
+  ok: boolean;
+  reviews: {
+    id: number;
+    content: string;
+    score: number;
+    createdAt: string;
+    createdBy: {
+      avatar: string | null;
+      id: number;
+      name: string;
+    };
+  }[];
+}
 
 const Profile: NextPage = () => {
+  const { data: userData } = useSWR<IResUserData>("/api/users/me");
+  const { data: reviewsData } = useSWR<IResUserReviews>("/api/users/reviews");
+
+  console.log(reviewsData);
+
   return (
     <Layout title={<BaseTitle title="나의 당근" />} hasTabBar>
       <div className="flex flex-col gap-8">
         <section className="flex gap-2 pt-2 px-4 items-center">
           <div className="w-14 h-14 rounded-full bg-gray-300" />
           <div className="flex flex-col leading-none">
-            <span className="font-semibold">Mike Job</span>
+            <span className="font-semibold">{userData?.profile.name}</span>
             <Link href={`/user/${1}/update`}>
               <a>
                 <span className="text-xs">Update profile &rarr;</span>
@@ -53,27 +87,26 @@ const Profile: NextPage = () => {
           </button>
         </section>
         <section className="flex flex-col divide-y-2 py-8 px-4 items-center">
-          {[1, 1, 1, 1].map((_, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0"
-            >
-              <div className="flex gap-2 items-center">
-                <section className="flex pt-2 items-center">
-                  <PostUser
-                    name="Mike Job"
-                    option={<Stars fills={[1, 1, 1, 1, 0.5]} />}
-                  />
-                </section>
+          {reviewsData?.reviews.map(
+            ({ content, createdBy, score, id }, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0 w-full"
+              >
+                <div className="flex gap-2 items-center">
+                  <section className="flex pt-2 items-center">
+                    <PostUser
+                      name={createdBy.name}
+                      option={<Stars fill={score} reviewId={id + ""} />}
+                    />
+                  </section>
+                </div>
+                <div>
+                  <p className="text-sm">{content}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm">
-                  제품 받아서 아주 잘 사용하고 있습니다. 기스나 다른 하자가
-                  없으니 새제품 같고 너무 좋네요.
-                </p>
-              </div>
-            </div>
-          ))}
+            )
+          )}
         </section>
       </div>
     </Layout>

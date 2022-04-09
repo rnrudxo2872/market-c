@@ -93,7 +93,7 @@ model Answer {
 model Review {
   id           Int      @id @default(autoincrement())
   content      String   @db.MediumText
-  score        Int
+  score        Float
   createdBy    User     @relation(name: "writtenReviews", fields: [createById], references: [id])
   createById   Int
   createdFor   User     @relation(name: "receivedReviews", fields: [createdForId], references: [id])
