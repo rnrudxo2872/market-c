@@ -1,11 +1,12 @@
 import { repeat } from "@libs/client/utils";
+import { joinClasses } from "@libs/common";
 
-function HalfStar() {
+function HalfStar({ isAvg }: { isAvg: boolean }) {
   return (
     <svg
       viewBox="0 0 576 512"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-yellow-400 h-4 w-4"
+      className={joinClasses("text-yellow-400", isAvg ? "h-8 w-8" : "h-4 w-4")}
       fill="currentColor"
       aria-hidden="true"
     >
@@ -14,12 +15,12 @@ function HalfStar() {
   );
 }
 
-function FullStar() {
+function FullStar({ isAvg }: { isAvg: boolean }) {
   return (
     <svg
       viewBox="0 0 576 512"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-yellow-400 h-4 w-4"
+      className={joinClasses("text-yellow-400", isAvg ? "h-8 w-8" : "h-4 w-4")}
       fill="currentColor"
       aria-hidden="true"
     >
@@ -31,19 +32,24 @@ function FullStar() {
 export default function Stars({
   fill,
   reviewId,
+  isAvg = false,
 }: {
   fill: number;
   reviewId: string;
+  isAvg?: boolean;
 }) {
   return (
     <div className="flex gap-0.5">
       {repeat<JSX.Element[]>(Math.floor(fill))(
         (a, index) => (
-          (a[a.length] = <FullStar key={`${reviewId}/star/${index}`} />), a
+          (a[a.length] = (
+            <FullStar key={`${reviewId}/star/${index}`} isAvg={isAvg} />
+          )),
+          a
         )
       )([])}
       {fill % 1 !== 0 ? (
-        <HalfStar key={`${reviewId}/star/${Math.ceil(fill)}`} />
+        <HalfStar key={`${reviewId}/star/${Math.ceil(fill)}`} isAvg={isAvg} />
       ) : null}
     </div>
   );

@@ -86,27 +86,55 @@ const Profile: NextPage = () => {
             <span className="text-sm font-semibold">관심목록</span>
           </button>
         </section>
-        <section className="flex flex-col divide-y-2 py-8 px-4 items-center">
-          {reviewsData?.reviews.map(
-            ({ content, createdBy, score, id }, index) => (
-              <div
-                key={index}
-                className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0 w-full"
-              >
-                <div className="flex gap-2 items-center">
-                  <section className="flex pt-2 items-center">
-                    <PostUser
-                      name={createdBy.name}
-                      option={<Stars fill={score} reviewId={id + ""} />}
-                    />
-                  </section>
+        <section className="flex flex-col py-8 px-4 items-center">
+          <div className="flex text-4xl font-bold items-center mb-8 gap-x-4">
+            {reviewsData ? (
+              <>
+                <span>
+                  {(
+                    reviewsData.reviews.reduce(
+                      (acc, { score }) => acc + score,
+                      0
+                    ) / reviewsData.reviews.length
+                  ).toFixed(1)}
+                </span>
+                <Stars
+                  isAvg
+                  fill={Number(
+                    (
+                      reviewsData.reviews.reduce(
+                        (acc, { score }) => acc + score,
+                        0
+                      ) / reviewsData.reviews.length
+                    ).toFixed(1)
+                  )}
+                  reviewId={`avg`}
+                />
+              </>
+            ) : null}
+          </div>
+          <div className="divide-y-2">
+            {reviewsData?.reviews.map(
+              ({ content, createdBy, score, id }, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-2 py-2 first:pt-0 last:pb-0 w-full"
+                >
+                  <div className="flex gap-2 items-center">
+                    <section className="flex pt-2 items-center">
+                      <PostUser
+                        name={createdBy.name}
+                        option={<Stars fill={score} reviewId={id + ""} />}
+                      />
+                    </section>
+                  </div>
+                  <div>
+                    <p className="text-sm">{content}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm">{content}</p>
-                </div>
-              </div>
-            )
-          )}
+              )
+            )}
+          </div>
         </section>
       </div>
     </Layout>
