@@ -4,7 +4,6 @@ import LaunchButton from "@components/launcherButton";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
 import useSWR from "swr";
-import useUser from "@libs/client/useUser";
 
 interface IGetProducts {
   ok: boolean;
@@ -20,7 +19,6 @@ interface IGetProducts {
 }
 
 const Home: NextPage = () => {
-  useUser();
   const { data, error } = useSWR<IGetProducts>("/api/products");
 
   return (
