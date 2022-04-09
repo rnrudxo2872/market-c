@@ -47,7 +47,7 @@ const Profile: NextPage = () => {
           <div className="w-14 h-14 rounded-full bg-gray-300" />
           <div className="flex flex-col leading-none">
             <span className="font-semibold">{userData?.profile.name}</span>
-            <Link href={`/user/${1}/update`}>
+            <Link href="/profile/edit">
               <a>
                 <span className="text-xs">Update profile &rarr;</span>
               </a>
