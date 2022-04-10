@@ -9,8 +9,15 @@ interface IUseMutation<S = unknown, T = unknown> {
 
 type UseMutationResult<S, T> = IUseMutation<S, T>;
 
+type MutationMethod = "POST" | "DELETE" | "PUT" | "PATCH";
+
+interface IOption {
+  method?: MutationMethod;
+}
+
 export default function useMutation<S = unknown, T = unknown>(
-  url: string
+  url: string,
+  options?: IOption
 ): UseMutationResult<S, T> {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -19,7 +26,7 @@ export default function useMutation<S = unknown, T = unknown>(
   function fetchMutation(data: T) {
     setLoading(true);
     fetch(url, {
-      method: "POST",
+      method: options ? options.method : "POST",
       headers: {
         "Content-Type": "application/json",
       },

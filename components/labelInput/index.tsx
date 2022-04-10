@@ -6,13 +6,19 @@ export default function InputWithLabel({
   labelText,
   register,
   type,
+  placeholder,
 }: IInputWithLabelProps) {
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id} className="font-semibold text-slate-500 select-none">
         {labelText}
       </label>
-      <Input id={id} register={register} type={type} />
+      <Input
+        id={id}
+        register={register}
+        type={type}
+        placeholder={placeholder}
+      />
     </div>
   );
 }

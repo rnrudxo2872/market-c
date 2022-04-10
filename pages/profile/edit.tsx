@@ -1,8 +1,77 @@
 import BaseBtn from "@components/baseBtn";
+import InputWithLabel from "@components/labelInput";
 import Layout from "@components/layout";
+import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import useSWR from "swr";
+
+interface IResUserState {
+  ok: boolean;
+  profile: {
+    email: string | null;
+    phone: string | null;
+  };
+}
+
+interface IFromData {
+  email: string | null;
+  phone: string | null;
+  formError: string | null;
+}
+
+interface IResUpdate {
+  ok: boolean;
+  error?: string;
+}
 
 const Edit: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+    clearErrors,
+    watch,
+  } = useForm<IFromData>();
+  const { data } = useSWR<IResUserState>("/api/users/me");
+  const {
+    fetchMutation,
+    loading,
+    data: responseData,
+  } = useMutation<IResUpdate>("/api/users/me", {
+    method: "PATCH",
+  });
+
+  function onValid(formData: IFromData) {
+    if (loading) return;
+    const { email, phone } = formData;
+    if (email === "" && phone === "") {
+      return setError("formError", {
+        type: "required",
+        message: "Email or Phone are required.",
+      });
+    }
+    fetchMutation(formData);
+  }
+
+  useEffect(() => {
+    if (data) {
+      data.profile.email ? setValue("email", data.profile.email) : null;
+      data.profile.phone ? setValue("phone", data.profile.phone) : null;
+    }
+  }, [data, setValue]);
+
+  useEffect(() => {
+    if (responseData && !responseData.ok && responseData.error) {
+      setError("formError", { type: "disabled", message: responseData.error });
+    }
+  }, [responseData, setError]);
+
+  watch(() => clearErrors());
+
   return (
     <Layout hasBackBtn>
       <div className="pt-10 space-y-5">
@@ -23,39 +92,30 @@ const Edit: NextPage = () => {
           </div>
         </section>
         <section>
-          <form className="space-y-4 flex flex-col">
-            <div className="flex flex-col">
-              <label
-                htmlFor="email"
-                className="font-semibold text-slate-500 select-none"
-              >
-                Email address
-              </label>
-              <input
-                id="email"
-                type="email"
-                className="border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-shadow duration-300 px-2"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label
-                htmlFor="phone"
-                className="font-semibold text-slate-500 select-none"
-              >
-                Phone number
-              </label>
-              <div className="flex flex-row-reverse">
-                <input
-                  id="phone"
-                  type="number"
-                  className="appearance-none border-[1.5px] border-gray-400 border-opacity-60 rounded-lg rounded-l-none py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-shadow duration-300 px-2"
-                />
-                <div className="bg-slate-200 flex items-center border border-gray-400 border-r-0 rounded-l-md peer-focus:ring-1 peer-focus:border-amber-500 ring-amber-500 transition-shadow duration-300">
-                  <span className="text-slate-500 font-semibold px-1">+82</span>
-                </div>
-              </div>
-            </div>
-            <BaseBtn OnClick={() => {}}>완료</BaseBtn>
+          <form
+            className="space-y-4 flex flex-col"
+            onSubmit={handleSubmit(onValid)}
+          >
+            <InputWithLabel
+              id="email"
+              labelText="Email address"
+              type="email"
+              register={register("email")}
+            />
+            <InputWithLabel
+              id="phone"
+              labelText="Phone number"
+              type="phone"
+              register={register("phone")}
+            />
+            {errors.formError ? (
+              <span className="text-red-400 mx-auto">
+                {errors.formError?.message}
+              </span>
+            ) : null}
+            <BaseBtn OnClick={() => {}}>
+              {loading ? "당근 캐는중..." : "완료"}
+            </BaseBtn>
           </form>
         </section>
       </div>

@@ -6,20 +6,51 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     session: { user },
+    method,
   } = req;
 
-  const profile = await client.user.findUnique({
-    where: {
-      id: Number(user!.id),
-    },
-  });
+  if (method === "GET") {
+    const profile = await client.user.findUnique({
+      where: {
+        id: Number(user!.id),
+      },
+    });
 
-  profile
-    ? res.status(200).json({
-        ok: true,
-        profile,
+    return profile
+      ? res.status(200).json({
+          ok: true,
+          profile,
+        })
+      : res.status(403).end();
+  }
+
+  if (method === "PATCH") {
+    const {
+      body: { name, email, phone },
+    } = req;
+
+    const updatedUser = await client.user
+      .update({
+        data: {
+          // name: name === "" ? null,
+          email: email === "" ? null : email,
+          phone: phone === "" ? null : phone,
+        },
+        where: {
+          id: user!.id,
+        },
       })
-    : res.status(403).end();
+      .catch((error) => {
+        return res.status(451).json({
+          ok: false,
+          error: "Something wrong.",
+        });
+      });
+
+    return res.status(200).end();
+  }
 }
 
-export default withSession(withHandler({ method: ["GET"], fn: handler }));
+export default withSession(
+  withHandler({ method: ["GET", "PATCH"], fn: handler })
+);
