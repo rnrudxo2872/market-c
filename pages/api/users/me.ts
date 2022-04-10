@@ -59,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
     }
 
-    const updatedUser = await client.user
+    await client.user
       .update({
         data: {
           name: name === "" ? null : name,
@@ -70,7 +70,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: user!.id,
         },
       })
-      .catch((error) => {
+      .catch(() => {
         return res.status(451).json({
           ok: false,
           error: "Something wrong.",
@@ -91,7 +91,7 @@ async function isUnique({
   value: string;
 }) {
   return Boolean(
-    await client.user.findMany({
+    await client.user.findFirst({
       where: {
         [col]: value,
         NOT: {

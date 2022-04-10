@@ -12,6 +12,7 @@ interface IResUserState {
   profile: {
     email: string | null;
     phone: string | null;
+    name: string | null;
   };
 }
 
@@ -60,6 +61,7 @@ const Edit: NextPage = () => {
 
   useEffect(() => {
     if (data) {
+      data.profile.name ? setValue("name", data.profile.name) : null;
       data.profile.email ? setValue("email", data.profile.email) : null;
       data.profile.phone ? setValue("phone", data.profile.phone) : null;
     }
@@ -97,6 +99,12 @@ const Edit: NextPage = () => {
             className="space-y-4 flex flex-col"
             onSubmit={handleSubmit(onValid)}
           >
+            <InputWithLabel
+              id="name"
+              labelText="Name"
+              type="text"
+              register={register("name")}
+            />
             <InputWithLabel
               id="email"
               labelText="Email address"
