@@ -29,10 +29,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       body: { name, email, phone },
     } = req;
 
+    const userState = await client.user.findUnique({
+      where: {
+        id: user!.id,
+      },
+    });
+
+    if (userState) {
+      if (name && name !== userState.name) {
+        if (await isUnique({ userId: user!.id, col: "name", value: name }))
+          return res.json({
+            ok: false,
+            error: "사용할 수 없는 이름 입니다.",
+          });
+      }
+      if (email && email !== userState.email) {
+        if (await isUnique({ userId: user!.id, col: "email", value: email }))
+          return res.json({
+            ok: false,
+            error: "사용할 수 없는 이메일 입니다.",
+          });
+      }
+      if (phone && phone !== userState.phone) {
+        if (await isUnique({ userId: user!.id, col: "phone", value: phone }))
+          return res.json({
+            ok: false,
+            error: "사용할 수 없는 휴대번호 입니다.",
+          });
+      }
+    }
+
     const updatedUser = await client.user
       .update({
         data: {
-          // name: name === "" ? null,
+          name: name === "" ? null : name,
           email: email === "" ? null : email,
           phone: phone === "" ? null : phone,
         },
@@ -49,6 +79,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(200).end();
   }
+}
+
+async function isUnique({
+  userId,
+  col,
+  value,
+}: {
+  userId: number;
+  col: string;
+  value: string;
+}) {
+  return Boolean(
+    await client.user.findMany({
+      where: {
+        [col]: value,
+        NOT: {
+          id: userId,
+        },
+      },
+    })
+  );
 }
 
 export default withSession(

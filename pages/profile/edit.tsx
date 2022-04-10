@@ -16,6 +16,7 @@ interface IResUserState {
 }
 
 interface IFromData {
+  name: string | null;
   email: string | null;
   phone: string | null;
   formError: string | null;
