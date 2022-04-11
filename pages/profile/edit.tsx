@@ -4,7 +4,7 @@ import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { ErrorOption, useForm } from "react-hook-form";
 import useSWR from "swr";
 
 interface IResUserState {
@@ -48,15 +48,58 @@ const Edit: NextPage = () => {
   });
 
   function onValid(formData: IFromData) {
+    if (!data) return;
     if (loading) return;
-    const { email, phone } = formData;
-    if (email === "" && phone === "") {
-      return setError("formError", {
-        type: "required",
-        message: "Email or Phone are required.",
-      });
+
+    const { valid, status } = isValid(formData);
+    if (!valid && status) {
+      return setError("formError", status);
     }
+
     fetchMutation(formData);
+  }
+
+  function isValid(formData: IFromData): {
+    valid: boolean;
+    status?: ErrorOption;
+  } {
+    const { name, email, phone } = formData;
+    if (name === "") {
+      return {
+        valid: false,
+        status: {
+          type: "requerd",
+          message: "name is required.",
+        },
+      };
+    }
+    if (email === "" && phone === "") {
+      return {
+        valid: false,
+        status: {
+          type: "required",
+          message: "Email or Phone are required.",
+        },
+      };
+    }
+
+    const {
+      profile: { name: prevName, email: prevEmail, phone: prevPhone },
+    } = data!;
+    if (
+      name === (prevName ?? "") &&
+      email === (prevEmail ?? "") &&
+      phone === (prevPhone ?? "")
+    ) {
+      return {
+        valid: false,
+        status: {
+          type: "disabled",
+          message: "이전 정보에서 변경사항이 없습니다.",
+        },
+      };
+    }
+    return { valid: true };
   }
 
   useEffect(() => {
