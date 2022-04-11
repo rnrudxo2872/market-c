@@ -26,7 +26,7 @@ export default function Layout({
     <div className="w-full max-w-md mx-auto">
       <section
         className={joinClasses(
-          "fixed top-0 w-full bg-white z-10 border-b border-b-gray-300 max-w-lg flex gap-3 items-center",
+          "fixed top-0 w-full bg-white z-10 border-b border-b-gray-300 max-w-md flex gap-3 items-center",
           title || hasBackBtn ? "h-14" : ""
         )}
       >

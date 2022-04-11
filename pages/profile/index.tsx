@@ -38,8 +38,6 @@ const Profile: NextPage = () => {
   const { data: userData } = useSWR<IResUserData>("/api/users/me");
   const { data: reviewsData } = useSWR<IResUserReviews>("/api/users/reviews");
 
-  console.log(reviewsData);
-
   return (
     <Layout title={<BaseTitle title="나의 당근" />} hasTabBar>
       <div className="flex flex-col gap-8">

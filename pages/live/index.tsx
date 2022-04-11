@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
+import Link from "next/link";
+import Video from "@components/live/video";
 
 const Streams: NextPage = () => {
   return (
@@ -8,15 +10,23 @@ const Streams: NextPage = () => {
       <div className="space-y-8 pt-2">
         {[1, 1, 1, 1, 1].map((_, index) => (
           <div key={index} className="space-y-2 px-1">
-            <section className="aspect-video bg-gray-400"></section>
+            <Link href={`/live/${index}`}>
+              <a>
+                <Video />
+              </a>
+            </Link>
             <section className="flex items-center gap-1.5">
               <div>
                 <div className="aspect-square w-10 rounded-full bg-gray-400"></div>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm">
-                  당근을 파는 감자입니다. 구경 해봐요!
-                </span>
+                <Link href={`/live/${index}`}>
+                  <a>
+                    <span className="text-sm">
+                      당근을 파는 감자입니다. 구경 해봐요!
+                    </span>
+                  </a>
+                </Link>
                 <span className="text-xs text-gray-400">쏘세니</span>
               </div>
             </section>
