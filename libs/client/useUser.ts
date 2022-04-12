@@ -9,7 +9,8 @@ export default function useUser(whiteList?: string[]) {
 
   useEffect(() => {
     if (error && !isWhite) router.replace("/enter");
-  }, [error, isWhite, router]);
+    if (data && isWhite) router.replace("/");
+  }, [data, error, isWhite, router]);
 
   return data && !error
     ? { user: data.profile, loading: false }
