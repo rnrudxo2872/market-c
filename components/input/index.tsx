@@ -64,6 +64,23 @@ export default memo(function Input({
           value={value}
         />
       ) : null}
+      {type === "price" ? (
+        <div className="relative">
+          <span className="absolute left-2 bottom-0 top-0 my-auto inline-flex items-center text-lg">
+            {"$"}
+          </span>
+          <span className="absolute right-2 bottom-0 top-0 my-auto inline-flex items-center text-lg text-gray-400 select-none">
+            {"USD"}
+          </span>
+          <input
+            id={id}
+            type="number"
+            placeholder={placeholder}
+            {...register}
+            className="w-full appearance-none border-[1.5px] border-gray-400 border-opacity-60 rounded-lg py-2 outline-none focus:border-amber-500 focus:ring-1 ring-amber-500 transition-shadow duration-300 pl-5"
+          />
+        </div>
+      ) : null}
     </>
   );
 });

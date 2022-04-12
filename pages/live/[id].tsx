@@ -32,7 +32,7 @@ const StreamDetail: NextPage = () => {
             </div>
           </section>
         </section>
-        <section className="px-4 pt-5 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9))+1rem)] overflow-auto">
+        <section className="px-4 pt-5 pb-2 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9))+0.3rem)] overflow-auto">
           <ChatMessage />
           <ChatMessage />
           <ChatMessage />

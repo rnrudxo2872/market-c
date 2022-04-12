@@ -1,1 +1,1 @@
-export type TInput = "text" | "phone" | "email" | "number";
+export type TInput = "text" | "phone" | "email" | "number" | "price";

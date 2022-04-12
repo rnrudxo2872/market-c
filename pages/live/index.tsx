@@ -3,6 +3,7 @@ import Layout from "@components/layout";
 import BaseTitle from "@components/title";
 import Link from "next/link";
 import Video from "@components/live/video";
+import LaunchButton from "@components/launcherButton";
 
 const Streams: NextPage = () => {
   return (
@@ -32,7 +33,7 @@ const Streams: NextPage = () => {
             </section>
           </div>
         ))}
-        <button className="fixed bottom-24 right-5 rounded-full bg-amber-500 p-3 shadow-2xl hover:bg-red-500">
+        <LaunchButton href="/live/create">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-8 h-8 text-stone-100"
@@ -41,7 +42,7 @@ const Streams: NextPage = () => {
           >
             <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
           </svg>
-        </button>
+        </LaunchButton>
       </div>
     </Layout>
   );
