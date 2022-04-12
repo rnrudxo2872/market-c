@@ -2,6 +2,7 @@ import BaseBtn from "@components/baseBtn";
 import InputWithLabel from "@components/labelInput";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { ErrorOption, useForm } from "react-hook-form";
@@ -38,7 +39,7 @@ const Edit: NextPage = () => {
     clearErrors,
     watch,
   } = useForm<IFromData>();
-  const { data } = useSWR<IResUserState>("/api/users/me");
+  const { user } = useUser();
   const {
     fetchMutation,
     loading,
@@ -48,7 +49,7 @@ const Edit: NextPage = () => {
   });
 
   function onValid(formData: IFromData) {
-    if (!data) return;
+    if (!user) return;
     if (loading) return;
 
     const { valid, status } = isValid(formData);
@@ -85,7 +86,7 @@ const Edit: NextPage = () => {
 
     const {
       profile: { name: prevName, email: prevEmail, phone: prevPhone },
-    } = data!;
+    } = user;
     if (
       name === (prevName ?? "") &&
       email === (prevEmail ?? "") &&
@@ -103,12 +104,12 @@ const Edit: NextPage = () => {
   }
 
   useEffect(() => {
-    if (data) {
-      data.profile.name ? setValue("name", data.profile.name) : null;
-      data.profile.email ? setValue("email", data.profile.email) : null;
-      data.profile.phone ? setValue("phone", data.profile.phone) : null;
+    if (user) {
+      user.name ? setValue("name", user.name) : null;
+      user.email ? setValue("email", user.email) : null;
+      user.phone ? setValue("phone", user.phone) : null;
     }
-  }, [data, setValue]);
+  }, [setValue, user]);
 
   useEffect(() => {
     if (responseData && !responseData.ok && responseData.error) {

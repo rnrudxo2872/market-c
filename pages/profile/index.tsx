@@ -5,6 +5,7 @@ import Stars from "@components/stars";
 import BaseTitle from "@components/title";
 import PostUser from "@components/profile/postUser";
 import useSWR from "swr";
+import useUser from "@libs/client/useUser";
 
 interface IResUserData {
   ok: boolean;
@@ -35,7 +36,7 @@ interface IResUserReviews {
 }
 
 const Profile: NextPage = () => {
-  const { data: userData } = useSWR<IResUserData>("/api/users/me");
+  const { user } = useUser();
   const { data: reviewsData } = useSWR<IResUserReviews>("/api/users/reviews");
 
   return (
@@ -44,7 +45,7 @@ const Profile: NextPage = () => {
         <section className="flex gap-2 pt-2 px-4 items-center">
           <div className="w-14 h-14 rounded-full bg-gray-300" />
           <div className="flex flex-col leading-none">
-            <span className="font-semibold">{userData?.profile.name}</span>
+            <span className="font-semibold">{user && user.name}</span>
             <Link href="/profile/edit">
               <a>
                 <span className="text-xs">Update profile &rarr;</span>
