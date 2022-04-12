@@ -3,8 +3,20 @@ import Layout from "@components/layout";
 import ChatMessage from "@components/live/chatMessage";
 import Video from "@components/live/video";
 import { NextPage } from "next";
+import { useForm } from "react-hook-form";
 
 const StreamDetail: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+    watch,
+  } = useForm({ mode: "onChange" });
+
+  function onValid(data: any) {
+    console.log("제출! -->  ", data);
+  }
+
   return (
     <Layout hasBackBtn>
       <div className="space-y-2 flex flex-col">
@@ -39,7 +51,14 @@ const StreamDetail: NextPage = () => {
           <ChatMessage />
           <ChatMessage />
         </section>
-        <ChatForm />
+        <ChatForm
+          id="chat"
+          handleSubmit={handleSubmit(onValid)}
+          register={register("chat", {
+            required: true,
+          })}
+          isValid={isValid}
+        />
       </div>
     </Layout>
   );

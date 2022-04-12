@@ -1,7 +1,26 @@
-export default function ChatForm() {
+import { joinClasses } from "@libs/common";
+import { UseFormRegisterReturn } from "react-hook-form";
+
+interface IProps {
+  id: string;
+  handleSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  register: UseFormRegisterReturn;
+  isValid: boolean;
+}
+
+export default function ChatForm({
+  id,
+  handleSubmit,
+  register,
+  isValid,
+}: IProps) {
+  console.log(isValid);
   return (
     <div className="fixed bottom-0 inset-x-0">
-      <form className="relative px-12 py-1 bg-gray-300 bg-opacity-80 w-full max-w-md mx-auto">
+      <form
+        className="relative px-12 py-1 bg-gray-300 bg-opacity-80 w-full max-w-md mx-auto"
+        onSubmit={handleSubmit}
+      >
         <button
           type="button"
           className="absolute left-2 bottom-0 top-0 my-auto fill-gray-400 hover:fill-amber-500 focus:fill-amber-500 transition-colors"
@@ -17,10 +36,10 @@ export default function ChatForm() {
           </svg>
         </button>
         <input
-          id="inputBox"
+          id={id}
           type="text"
           className="border-[1.5px] border-gray-400 border-opacity-60 rounded-2xl py-2 outline-none focus:border-amber-500 focus:ring-1 flex-grow peer ring-amber-500 transition-shadow duration-300 px-2 w-full mx-auto"
-          required
+          {...register}
         />
         <button className="absolute right-[3.22rem] bottom-0 top-0 my-auto fill-gray-500 hover:fill-amber-500 focus:fill-amber-500 transition-colors">
           <svg
@@ -31,7 +50,12 @@ export default function ChatForm() {
             <path d="M10.2493 10.0004C10.2493 9.31048 9.69001 8.75115 9.00005 8.75115C8.31008 8.75115 7.75076 9.31048 7.75076 10.0004C7.75076 10.6904 8.31008 11.2497 9.00005 11.2497C9.69001 11.2497 10.2493 10.6904 10.2493 10.0004ZM16.2493 10.0004C16.2493 9.31048 15.69 8.75115 15 8.75115C14.3101 8.75115 13.7508 9.31048 13.7508 10.0004C13.7508 10.6904 14.3101 11.2497 15 11.2497C15.69 11.2497 16.2493 10.6904 16.2493 10.0004ZM10.1356 15.107C9.78037 14.8938 9.31967 15.009 9.10656 15.3642C8.89345 15.7194 9.00862 16.1801 9.36381 16.3932C10.1306 16.8533 11.0841 17.0626 11.9997 17.0626C12.9152 17.0626 13.8687 16.8534 14.6355 16.3934C14.9907 16.1803 15.1059 15.7196 14.8928 15.3644C14.6798 15.0092 14.2191 14.894 13.8639 15.1071C13.3807 15.3969 12.7091 15.5626 11.9997 15.5626C11.2903 15.5626 10.6187 15.3969 10.1356 15.107ZM22.0011 12.0005C22.0011 6.47681 17.5233 1.99896 11.9996 1.99896C6.47589 1.99896 1.99805 6.47681 1.99805 12.0005C1.99805 17.5242 6.47589 22.0021 11.9996 22.0021C17.5233 22.0021 22.0011 17.5242 22.0011 12.0005ZM3.49805 12.0005C3.49805 7.30524 7.30432 3.49896 11.9996 3.49896C16.6949 3.49896 20.5011 7.30524 20.5011 12.0005C20.5011 16.6958 16.6949 20.5021 11.9996 20.5021C7.30432 20.5021 3.49805 16.6958 3.49805 12.0005Z" />
           </svg>
         </button>
-        <button className="absolute right-2 bottom-0 top-0 my-auto fill-gray-400 peer-valid:fill-amber-500 transition-colors ">
+        <button
+          className={joinClasses(
+            "absolute right-2 bottom-0 top-0 my-aut transition-colors ",
+            isValid ? "fill-amber-500" : "fill-gray-400"
+          )}
+        >
           <svg
             viewBox="0 0 256 256"
             xmlns="http://www.w3.org/2000/svg"
