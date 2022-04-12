@@ -26,7 +26,7 @@ const CreateStream: NextPage = () => {
     "/api/live"
   );
   const router = useRouter();
-  console.log(watch());
+
   function onValid(data: IFormData) {
     if (loading) return;
     fetchMutation(data);

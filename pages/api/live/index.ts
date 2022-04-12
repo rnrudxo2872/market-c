@@ -5,6 +5,46 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
 
+  if (method === "GET") {
+    const liveList = await client.stream
+      .findMany({
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        take: 5,
+      })
+      .catch(() => {
+        return res.status(400).json({
+          ok: false,
+          error: "잘못된 형식의 요청입니다.",
+        });
+      });
+
+    if (!liveList) {
+      return res.status(400).json({
+        ok: false,
+        error: "잘못된 형식의 요청입니다.",
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      liveList: liveList.map(({ id, name, createdAt, user }) => ({
+        id,
+        title: name,
+        createdAt,
+        userName: user.name,
+      })),
+    });
+  }
+
   if (method === "POST") {
     const {
       body: { title, price, description },
@@ -19,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           userId: user!.id,
         },
       })
-      .catch((error) => {
+      .catch(() => {
         return res.status(400).json({
           ok: false,
           error: "잘못된 형식의 입력입니다.",
