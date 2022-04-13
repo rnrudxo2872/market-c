@@ -6,6 +6,7 @@ import Video from "@components/live/video";
 import LaunchButton from "@components/launcherButton";
 import useSWR from "swr";
 import { useEffect } from "react";
+import LiveElement from "@components/live/liveElement";
 
 interface ILiveData {
   id: number;
@@ -33,26 +34,7 @@ const Streams: NextPage = () => {
     <Layout title={<BaseTitle title="동네생활" />} hasTabBar>
       <div className="space-y-8 pt-2">
         {data?.liveList?.map(({ id, title, userName, createAt }) => (
-          <div key={id} className="space-y-2 px-1">
-            <Link href={`/live/${id}`}>
-              <a>
-                <Video />
-              </a>
-            </Link>
-            <section className="flex items-center gap-1.5">
-              <div>
-                <div className="aspect-square w-10 rounded-full bg-gray-400"></div>
-              </div>
-              <div className="flex flex-col">
-                <Link href={`/live/${id}`}>
-                  <a>
-                    <span className="text-sm">{title}</span>
-                  </a>
-                </Link>
-                <span className="text-xs text-gray-400">{userName}</span>
-              </div>
-            </section>
-          </div>
+          <LiveElement key={id} title={title} userName={userName} linkId={id} />
         ))}
         <LaunchButton href="/live/create">
           <svg

@@ -1,11 +1,41 @@
 import ChatForm from "@components/chat/chatForm";
 import Layout from "@components/layout";
 import ChatMessage from "@components/live/chatMessage";
+import LiveElement from "@components/live/liveElement";
 import Video from "@components/live/video";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import useSWR from "swr";
+
+interface IMessage {
+  user: {
+    id: number;
+    name: string;
+  };
+  content: string;
+}
+
+interface ILive {
+  id: number;
+  title: string;
+  createdAt: string;
+  price: string;
+  streamerId: number;
+  streamer: string;
+  messages: IMessage[];
+}
+
+interface IResLiveData {
+  ok: boolean;
+  live: ILive;
+}
 
 const StreamDetail: NextPage = () => {
+  const router = useRouter();
+  const { data: liveData, error } = useSWR<IResLiveData>(
+    router.query.id ? `/api/live/${router.query.id}` : null
+  );
   const {
     register,
     handleSubmit,
@@ -17,39 +47,28 @@ const StreamDetail: NextPage = () => {
     console.log("제출! -->  ", data);
   }
 
+  console.log(liveData);
+
   return (
     <Layout hasBackBtn>
       <div className="space-y-2 flex flex-col">
-        <section className="space-y-2">
-          <Video />
-          <section className="flex items-center gap-1.5 px-3">
-            <div className="aspect-square w-10 rounded-full bg-gray-400"></div>
-            <div className="flex flex-col">
-              <span className="text-sm">
-                당근을 파는 감자입니다. 구경 해봐요!
-              </span>
-              <span className="text-xs text-gray-400">쏘세니</span>
-            </div>
-          </section>
-        </section>
+        {liveData && liveData.ok ? (
+          <LiveElement
+            title={liveData.live.title}
+            userName={liveData.live.streamer}
+          />
+        ) : null}
         <section className="px-4 pt-5 pb-2 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9))+0.3rem)] overflow-auto">
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
-          <ChatMessage />
+          {liveData?.live.messages.map(
+            ({ content, user: { id, name } }, index) => (
+              <ChatMessage
+                key={`${id}/${index}`}
+                userId={id}
+                name={name}
+                content={content}
+              />
+            )
+          )}
         </section>
         <ChatForm
           id="chat"
