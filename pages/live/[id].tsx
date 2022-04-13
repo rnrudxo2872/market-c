@@ -2,9 +2,10 @@ import ChatForm from "@components/chat/chatForm";
 import Layout from "@components/layout";
 import ChatMessage from "@components/live/chatMessage";
 import LiveElement from "@components/live/liveElement";
-import Video from "@components/live/video";
+import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -31,9 +32,22 @@ interface IResLiveData {
   live: ILive;
 }
 
+interface IChatForm {
+  chat: string;
+}
+
+interface IChatRes {
+  ok: boolean;
+  error?: string;
+}
+
 const StreamDetail: NextPage = () => {
   const router = useRouter();
-  const { data: liveData, error } = useSWR<IResLiveData>(
+  const {
+    data: liveData,
+    error,
+    mutate,
+  } = useSWR<IResLiveData>(
     router.query.id ? `/api/live/${router.query.id}` : null
   );
   const {
@@ -41,13 +55,26 @@ const StreamDetail: NextPage = () => {
     handleSubmit,
     formState: { isValid },
     watch,
-  } = useForm({ mode: "onChange" });
+    reset,
+  } = useForm<IChatForm>({ mode: "onChange" });
+  const {
+    data: chatResData,
+    fetchMutation,
+    error: chatError,
+    loading,
+  } = useMutation<IChatRes, IChatForm>(`/api/live/${router.query.id}/message`);
 
-  function onValid(data: any) {
-    console.log("제출! -->  ", data);
+  function onValid(data: IChatForm) {
+    if (loading || !router.query) return;
+    fetchMutation(data);
+    reset();
   }
 
-  console.log(liveData);
+  useEffect(() => {
+    if (chatResData && chatResData.ok) {
+      mutate();
+    }
+  }, [chatResData, mutate]);
 
   return (
     <Layout hasBackBtn>
