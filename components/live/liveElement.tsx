@@ -15,6 +15,7 @@ export default memo(function LiveElement({
   userName,
   userId,
 }: IElementProps) {
+  console.log(title, linkId, userName, userId);
   return (
     <section className="space-y-2">
       {linkId ? (

@@ -15,6 +15,7 @@ interface IMessage {
     name: string;
   };
   content: string;
+  createdAt: string;
 }
 
 interface ILive {
@@ -24,12 +25,16 @@ interface ILive {
   price: string;
   streamerId: number;
   streamer: string;
-  messages: IMessage[];
 }
 
 interface IResLiveData {
   ok: boolean;
   live: ILive;
+}
+
+interface IResMessageData {
+  ok: boolean;
+  messages: IMessage[];
 }
 
 interface IChatForm {
@@ -43,13 +48,19 @@ interface IChatRes {
 
 const StreamDetail: NextPage = () => {
   const router = useRouter();
-  const [nowDate] = useState(Date.now());
+  const [nowDate, setNowDate] = useState(Date.now());
+  const [curMessages, setCurMessages] = useState<IMessage[]>([]);
+  const { data: liveData, error } = useSWR<IResLiveData>(
+    router.query.id ? `/api/live/${router.query.id}` : null
+  );
   const {
-    data: liveData,
-    error,
+    data: messageData,
+    error: messageError,
     mutate,
-  } = useSWR<IResLiveData>(
-    router.query.id ? `/api/live/${router.query.id}?time=${nowDate}` : null,
+  } = useSWR<IResMessageData>(
+    router.query.id
+      ? `/api/live/${router.query.id}/message?time=${nowDate}`
+      : null,
     { refreshInterval: 1000 }
   );
   const {
@@ -72,13 +83,18 @@ const StreamDetail: NextPage = () => {
   }
 
   useEffect(() => {
-    console.log("결과 -> ", chatResData);
     if (chatResData && chatResData.ok) {
-      console.log("새로 가져오기");
-      mutate((res) => res, {});
+      mutate();
     }
   }, [chatResData, mutate]);
 
+  useEffect(() => {
+    if (messageData && messageData.messages.length > 5) {
+      setCurMessages((prev) => [...prev, ...messageData.messages]);
+      setNowDate(Date.now());
+    }
+  }, [messageData]);
+  console.log(messageData);
   console.log("----->", liveData);
   return (
     <Layout hasBackBtn>
@@ -90,7 +106,15 @@ const StreamDetail: NextPage = () => {
           />
         ) : null}
         <section className="px-4 pt-5 pb-2 space-y-6 h-[calc(100vh-calc(100vw/calc(16/9))+0.3rem)] overflow-auto">
-          {liveData?.live.messages.map(
+          {curMessages?.map(({ content, user: { id, name } }, index) => (
+            <ChatMessage
+              key={`${id}/${index}`}
+              userId={id}
+              name={name}
+              content={content}
+            />
+          ))}
+          {messageData?.messages.map(
             ({ content, user: { id, name } }, index) => (
               <ChatMessage
                 key={`${id}/${index}`}

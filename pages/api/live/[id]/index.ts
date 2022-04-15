@@ -23,24 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             name: true,
           },
         },
-        messages: {
-          select: {
-            content: true,
-            user: {
-              select: {
-                id: true,
-                avatar: true,
-                name: true,
-              },
-            },
-          },
-          where: {
-            createdAt: {
-              gte: new Date(Number(query.time.toString())),
-            },
-          },
-          take: -5,
-        },
       },
     })
     .catch(() => {
@@ -66,7 +48,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       price: liveInfo.price,
       streamerId: liveInfo.user.id,
       streamer: liveInfo.user.name,
-      messages: liveInfo.messages,
     },
   });
 }
