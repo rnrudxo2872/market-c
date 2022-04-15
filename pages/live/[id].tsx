@@ -5,7 +5,7 @@ import LiveElement from "@components/live/liveElement";
 import useMutation from "@libs/client/useMutation";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -43,18 +43,19 @@ interface IChatRes {
 
 const StreamDetail: NextPage = () => {
   const router = useRouter();
+  const [nowDate] = useState(Date.now());
   const {
     data: liveData,
     error,
     mutate,
   } = useSWR<IResLiveData>(
-    router.query.id ? `/api/live/${router.query.id}` : null
+    router.query.id ? `/api/live/${router.query.id}?time=${nowDate}` : null,
+    { refreshInterval: 1000 }
   );
   const {
     register,
     handleSubmit,
     formState: { isValid },
-    watch,
     reset,
   } = useForm<IChatForm>({ mode: "onChange" });
   const {
@@ -71,11 +72,14 @@ const StreamDetail: NextPage = () => {
   }
 
   useEffect(() => {
+    console.log("결과 -> ", chatResData);
     if (chatResData && chatResData.ok) {
-      mutate();
+      console.log("새로 가져오기");
+      mutate((res) => res, {});
     }
   }, [chatResData, mutate]);
 
+  console.log("----->", liveData);
   return (
     <Layout hasBackBtn>
       <div className="space-y-2 flex flex-col">

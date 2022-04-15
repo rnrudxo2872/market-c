@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req;
+
   const liveInfo = await client.stream
     .findUnique({
       where: {
@@ -23,7 +24,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
         messages: {
-          take: 5,
           select: {
             content: true,
             user: {
@@ -34,11 +34,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               },
             },
           },
+          where: {
+            createdAt: {
+              gte: new Date(Number(query.time.toString())),
+            },
+          },
+          take: -5,
         },
       },
     })
     .catch(() => {
-      return res.status(400).json({
+      throw res.status(400).json({
         ok: false,
         error: "옳지 않은 요청입니다.",
       });
