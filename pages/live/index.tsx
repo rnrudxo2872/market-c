@@ -1,12 +1,10 @@
 import { NextPage } from "next";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
-import Link from "next/link";
-import Video from "@components/live/video";
 import LaunchButton from "@components/launcherButton";
-import useSWR from "swr";
-import { useEffect } from "react";
+import { useState } from "react";
 import LiveElement from "@components/live/liveElement";
+import InfiniteScroll from "@components/infiniteScroll";
 
 interface ILiveData {
   id: number;
@@ -22,20 +20,20 @@ interface IResLiveData {
 }
 
 const Streams: NextPage = () => {
-  const { data, error } = useSWR<IResLiveData>("/api/live");
-
-  useEffect(() => {
-    if (error) {
-      console.error(error);
-    }
-  }, [error]);
+  const [live, setLive] = useState<ILiveData[]>([]);
 
   return (
     <Layout title={<BaseTitle title="동네생활" />} hasTabBar>
       <div className="space-y-8 pt-2">
-        {data?.liveList?.map(({ id, title, userName, createAt }) => (
-          <LiveElement key={id} title={title} userName={userName} linkId={id} />
+        {live.map(({ id, title, userName, createAt }, index) => (
+          <LiveElement
+            key={`${id}/${index}`}
+            title={title}
+            userName={userName}
+            linkId={id}
+          />
         ))}
+        <InfiniteScroll url="/api/live" setState={setLive} />
         <LaunchButton href="/live/create">
           <svg
             xmlns="http://www.w3.org/2000/svg"

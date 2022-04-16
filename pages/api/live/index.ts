@@ -6,6 +6,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
 
   if (method === "GET") {
+    const { query } = req;
+    const page = Number(query.page.toString()) - 1;
     const liveList = await client.stream
       .findMany({
         select: {
@@ -18,6 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           },
         },
+        skip: page * 5,
         take: 5,
       })
       .catch(() => {
@@ -36,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(200).json({
       ok: true,
-      liveList: liveList.map(({ id, name, createdAt, user }) => ({
+      data: liveList.map(({ id, name, createdAt, user }) => ({
         id,
         title: name,
         createdAt,

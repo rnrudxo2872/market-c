@@ -87,7 +87,7 @@ const Item: NextPage = () => {
             <span className="text-sm">{data?.product.description}</span>
           </div>
           <div className="flex py-4">
-            <BaseBtn OnClick={() => console.log("")}>판매자와 대화하기</BaseBtn>
+            <BaseBtn OnClick={() => {}}>판매자와 대화하기</BaseBtn>
             <HeartBtn OnClick={clickLike} isOn={data?.isLike} />
           </div>
         </section>
