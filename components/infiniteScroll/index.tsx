@@ -44,9 +44,8 @@ export default memo(function InfiniteScroll({
   );
 
   const bottomRef = useRef<HTMLDivElement>(null);
-  const observer = useRef<IntersectionObserver>();
-
-  console.log(data);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastLen = useRef<number>(-1);
 
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
@@ -60,6 +59,11 @@ export default memo(function InfiniteScroll({
         }
       });
     });
+
+    return () => {
+      observer.current?.disconnect();
+      observer.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -81,13 +85,18 @@ export default memo(function InfiniteScroll({
           return state;
         }
 
+        if (lastLen.current >= 0) {
+          return [
+            ...state,
+            ...(data.data ? data.data.slice(lastLen.current, 5) : []),
+          ];
+        }
         return [...state, ...(data.data ? data.data : [])];
       });
 
       if (list && list.length < 5) {
-        observer.current && bottomRef.current
-          ? observer.current.disconnect()
-          : null;
+        observer.current?.disconnect();
+        lastLen.current = list.length;
         return;
       }
 
