@@ -1,3 +1,4 @@
+import { joinStrs } from "@libs/common";
 import {
   Dispatch,
   memo,
@@ -9,8 +10,11 @@ import {
 import useSWR from "swr";
 
 interface IProps {
-  url: string;
+  url: string | null;
   setState: Dispatch<SetStateAction<any[]>>;
+  urlQuery?: {
+    [param: string]: string | number | null;
+  };
 }
 
 interface IResData {
@@ -19,19 +23,40 @@ interface IResData {
   data?: any[];
 }
 
-export default memo(function InfiniteScroll({ url, setState }: IProps) {
+export default memo(function InfiniteScroll({
+  url,
+  setState,
+  urlQuery,
+}: IProps) {
   const [page, setPage] = useState(1);
-  const { data, error } = useSWR<IResData>(`${url}?page=${page}`);
+  const { data, error } = useSWR<IResData>(
+    url
+      ? joinStrs(
+          [
+            `${url}?page=${page}`,
+            ...(urlQuery
+              ? Object.keys(urlQuery).map((key) => `${key}=${urlQuery[key]}`)
+              : []),
+          ],
+          "&"
+        )
+      : null
+  );
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver>();
-  const isFirst = useRef<boolean>(true);
+
+  console.log(data);
 
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0) {
-          setPage((prev) => prev + 1);
+          setPage((prev) => {
+            return prev + 1;
+          });
+
+          if (observer.current) observer.current.disconnect();
         }
       });
     });
@@ -45,13 +70,30 @@ export default memo(function InfiniteScroll({ url, setState }: IProps) {
 
   useEffect(() => {
     if (data && data.ok) {
-      setState((live) => [...live, ...(data.data ? data.data : [])]);
+      const list = data.data!;
 
-      //after the list is rendered.
-      if (isFirst.current && bottomRef.current && observer.current) {
-        observer.current.observe(bottomRef.current);
-        isFirst.current = !isFirst.current;
+      setState((state) => {
+        if (
+          !list.length ||
+          (state.length &&
+            state[state.length - 1].id === list[list.length - 1].id)
+        ) {
+          return state;
+        }
+
+        return [...state, ...(data.data ? data.data : [])];
+      });
+
+      if (list && list.length < 5) {
+        observer.current && bottomRef.current
+          ? observer.current.disconnect()
+          : null;
+        return;
       }
+
+      observer.current && bottomRef.current
+        ? observer.current.observe(bottomRef.current)
+        : null;
     }
   }, [data, setState]);
 

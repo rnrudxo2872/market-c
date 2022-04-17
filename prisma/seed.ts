@@ -3,17 +3,18 @@ import { repeat } from "../libs/client/utils";
 
 const client = new PrismaClient();
 (async function () {
-  repeat<any>(50)(
+  repeat<any>(20)(
     async (_, i) => (
-      await client.stream.create({
+      await client.product.create({
         data: {
           name: String(i),
           description: String(i),
-          price: Number(i),
+          price: i,
+          image: "",
           userId: 20,
         },
       }),
-      console.log(`${i}/50`),
+      console.log(`${i}/20`),
       _
     )
   )({});

@@ -6,16 +6,6 @@ import useUser from "@libs/client/useUser";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { ErrorOption, useForm } from "react-hook-form";
-import useSWR from "swr";
-
-interface IResUserState {
-  ok: boolean;
-  profile: {
-    email: string | null;
-    phone: string | null;
-    name: string | null;
-  };
-}
 
 interface IFromData {
   name: string | null;

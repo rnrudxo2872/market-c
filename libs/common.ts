@@ -1,3 +1,7 @@
+export function joinStrs(strs: string[], separator?: string): string {
+  return strs.join(separator ?? ",");
+}
+
 export function joinClasses(...classes: string[]): string {
   return classes.join(" ");
 }

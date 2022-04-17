@@ -6,11 +6,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const {
-      query: { latitude, longitude },
+      query: { latitude, longitude, page },
     } = req;
     const lat = Number(latitude.toString());
     const long = Number(longitude.toString());
     const RANGE_CONST = 0.01;
+    const pageNum = Number(page.toString()) - 1;
 
     const communityPosts = await client.communityPost.findMany({
       where: {
@@ -32,11 +33,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       },
+      skip: pageNum * 5,
+      take: 5,
     });
 
     return res.status(200).json({
       ok: true,
-      posts: communityPosts.map(
+      data: communityPosts.map(
         ({ id, content, user: { name }, _count: { answer, wonder } }) => ({
           id,
           content,
@@ -56,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         coords: { latitude, longitude },
       },
     } = req;
-    console.log(req.body);
+
     if (!content) {
       return res.status(402).json({
         ok: false,

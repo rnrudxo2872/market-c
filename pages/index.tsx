@@ -4,37 +4,33 @@ import LaunchButton from "@components/launcherButton";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
 import useSWR from "swr";
+import InfiniteScroll from "@components/infiniteScroll";
+import { useState } from "react";
 
-interface IGetProducts {
-  ok: boolean;
-  products: [
-    {
-      id: number;
-      name: string;
-      price: string;
-      userName: string;
-      likes: number;
-    }
-  ];
+interface IProducts {
+  id: number;
+  name: string;
+  price: string;
+  userName: string;
+  likes: number;
 }
 
 const Home: NextPage = () => {
-  const { data, error } = useSWR<IGetProducts>("/api/products");
+  const [products, setProducts] = useState<IProducts[]>([]);
 
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
-      {data
-        ? data.products.map(({ id, name, userName, price, likes }) => (
-            <HomeItem
-              key={id}
-              id={id + ""}
-              hearts={likes}
-              price={price}
-              seller={userName}
-              title={name}
-            />
-          ))
-        : "loading..."}
+      {products.map(({ id, name, userName, price, likes }) => (
+        <HomeItem
+          key={id}
+          id={id + ""}
+          hearts={likes}
+          price={price}
+          seller={userName}
+          title={name}
+        />
+      ))}
+      <InfiniteScroll setState={setProducts} url="/api/products" />
       <LaunchButton href="/products/upload">
         <svg
           className="w-8 h-8 text-stone-100"

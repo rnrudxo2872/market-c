@@ -8,7 +8,13 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IApiResponse>
 ) {
-  if (req.method === "GET") {
+  const { method } = req;
+  if (method === "GET") {
+    const {
+      query: { page },
+    } = req;
+    const pageNum = Number(page.toString()) - 1;
+
     const products = await client.product.findMany({
       include: {
         user: true,
@@ -18,11 +24,13 @@ async function handler(
           },
         },
       },
+      skip: pageNum * 5,
+      take: 5,
     });
 
     return res.status(200).json({
       ok: true,
-      products: products.map(
+      data: products.map(
         ({
           id,
           name,
@@ -40,7 +48,7 @@ async function handler(
     });
   }
 
-  if (req.method === "POST") {
+  if (method === "POST") {
     const {
       body: { name, description, price },
       session: { user },
