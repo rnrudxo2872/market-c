@@ -38,8 +38,10 @@ const Edit: NextPage = () => {
   } = useMutation<IResUpdate>("/api/users/me", {
     method: "PATCH",
   });
+  const avatar = watch("avatar");
+  const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
 
-  function onValid(formData: IFromData) {
+  async function onValid(formData: IFromData) {
     if (!user) return;
     if (loading) return;
 
@@ -48,7 +50,32 @@ const Edit: NextPage = () => {
       return setError("formError", status);
     }
 
-    fetchMutation(formData);
+    let reqData = {
+      ...formData,
+    };
+
+    if (previewAvatar && avatar) {
+      const { uploadURL } = await (await fetch("/api/files")).json();
+
+      const tempForm = new FormData();
+      tempForm.append("file", avatar[0]);
+
+      const {
+        result: { id: resUploadId },
+      } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: tempForm,
+        })
+      ).json();
+
+      reqData = {
+        ...reqData,
+        avatar: resUploadId,
+      };
+    }
+
+    fetchMutation(reqData);
   }
 
   function isValid(formData: IFromData): {
@@ -76,12 +103,16 @@ const Edit: NextPage = () => {
     }
 
     const {
-      profile: { name: prevName, email: prevEmail, phone: prevPhone },
+      name: prevName,
+      email: prevEmail,
+      phone: prevPhone,
+      avatar: prevAvatar,
     } = user;
     if (
       name === (prevName ?? "") &&
       email === (prevEmail ?? "") &&
-      phone === (prevPhone ?? "")
+      phone === (prevPhone ?? "") &&
+      previewAvatar === prevAvatar
     ) {
       return {
         valid: false,
@@ -110,9 +141,6 @@ const Edit: NextPage = () => {
 
   watch(() => clearErrors());
 
-  const avatar = watch("avatar");
-  const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
-
   useEffect(() => {
     if (avatar && avatar.length) {
       setPreviewAvatar(URL.createObjectURL(avatar[0]));
@@ -124,7 +152,13 @@ const Edit: NextPage = () => {
       <form className="pt-10 space-y-5" onSubmit={handleSubmit(onValid)}>
         <section className="flex justify-center">
           <div className="aspect-square w-24 relative">
-            {previewAvatar ? (
+            {user?.avatar ? (
+              <img
+                src={`${user?.avatar}/public`}
+                alt={`${user?.email}의 프로필 이미지`}
+                className="w-full h-full rounded-full"
+              />
+            ) : previewAvatar ? (
               <img
                 src={previewAvatar}
                 alt={`${user?.email}의 프로필 이미지`}

@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (method === "PATCH") {
     const {
-      body: { name, email, phone },
+      body: { name, email, phone, avatar },
     } = req;
 
     const userState = await client.user.findUnique({
@@ -65,6 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           name: name === "" ? null : name,
           email: email === "" ? null : email,
           phone: phone === "" ? null : phone,
+          avatar: `https://imagedelivery.net/FeERp6QvBDqT_Gqpxb0Nww/${avatar}`,
         },
         where: {
           id: user!.id,
