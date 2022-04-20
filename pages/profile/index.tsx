@@ -6,19 +6,8 @@ import BaseTitle from "@components/title";
 import PostUser from "@components/profile/postUser";
 import useSWR from "swr";
 import useUser from "@libs/client/useUser";
-
-interface IResUserData {
-  ok: boolean;
-  profile: {
-    id: number;
-    phone: string | null;
-    email: string | null;
-    name: string;
-    avatar: string | null;
-    createdAt: string;
-    updatedAt: string;
-  };
-}
+import Image from "next/image";
+import { makeImageURL } from "@libs/client/utils";
 
 interface IResUserReviews {
   ok: boolean;
@@ -43,7 +32,17 @@ const Profile: NextPage = () => {
     <Layout title={<BaseTitle title="나의 당근" />} hasTabBar>
       <div className="flex flex-col gap-8">
         <section className="flex gap-2 pt-2 px-4 items-center">
-          <div className="w-14 h-14 rounded-full bg-gray-300" />
+          <div className="w-14 h-14 rounded-full overflow-hidden relative">
+            {user?.avatar ? (
+              <Image
+                src={makeImageURL({ imageId: user.avatar })}
+                alt={`${user.name}의 프로필 이미지`}
+                layout="fill"
+              ></Image>
+            ) : (
+              <div className="w-full h-full bg-gray-300"></div>
+            )}
+          </div>
           <div className="flex flex-col leading-none">
             <span className="font-semibold">{user && user.name}</span>
             <Link href="/profile/edit">
@@ -123,6 +122,7 @@ const Profile: NextPage = () => {
                     <section className="flex pt-2 items-center">
                       <PostUser
                         name={createdBy.name}
+                        image={createdBy.avatar ? createdBy.avatar : undefined}
                         option={<Stars fill={score} reviewId={id + ""} />}
                       />
                     </section>

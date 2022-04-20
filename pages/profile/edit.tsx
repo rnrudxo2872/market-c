@@ -166,6 +166,7 @@ const Edit: NextPage = () => {
                 src={makeImageURL({ imageId: user.avatar })}
                 alt={`${user?.email}의 프로필 이미지`}
                 layout="fill"
+                className="rounded-full"
               />
             ) : (
               <div className="w-full h-full bg-slate-400 rounded-full" />
