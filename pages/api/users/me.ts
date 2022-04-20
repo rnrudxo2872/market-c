@@ -65,7 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           name: name === "" ? null : name,
           email: email === "" ? null : email,
           phone: phone === "" ? null : phone,
-          avatar: `https://imagedelivery.net/FeERp6QvBDqT_Gqpxb0Nww/${avatar}`,
+          avatar: avatar,
         },
         where: {
           id: user!.id,

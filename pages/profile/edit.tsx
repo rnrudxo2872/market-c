@@ -3,7 +3,9 @@ import InputWithLabel from "@components/labelInput";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
+import { makeImageURL } from "@libs/client/utils";
 import { NextPage } from "next";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ErrorOption, useForm } from "react-hook-form";
 
@@ -146,23 +148,24 @@ const Edit: NextPage = () => {
       setPreviewAvatar(URL.createObjectURL(avatar[0]));
     }
   }, [avatar]);
-
+  console.log(previewAvatar);
   return (
     <Layout hasBackBtn>
       <form className="pt-10 space-y-5" onSubmit={handleSubmit(onValid)}>
         <section className="flex justify-center">
           <div className="aspect-square w-24 relative">
-            {user?.avatar ? (
-              <img
-                src={`${user?.avatar}/public`}
-                alt={`${user?.email}의 프로필 이미지`}
+            {previewAvatar ? (
+              <Image
+                src={previewAvatar}
+                alt={`${user?.email}의 수정된 프로필 이미지`}
+                layout="fill"
                 className="w-full h-full rounded-full"
               />
-            ) : previewAvatar ? (
-              <img
-                src={previewAvatar}
+            ) : user?.avatar ? (
+              <Image
+                src={makeImageURL({ imageId: user.avatar })}
                 alt={`${user?.email}의 프로필 이미지`}
-                className="w-full h-full rounded-full"
+                layout="fill"
               />
             ) : (
               <div className="w-full h-full bg-slate-400 rounded-full" />

@@ -1,11 +1,8 @@
+import { IImageInfo, Recursive } from "types/client";
+
 export function splitNewLine(str: string): string[] {
   return str.split("\n");
 }
-
-type Recursive = {
-  type?: (...args: any[]) => Recursive;
-  args?: any[];
-};
 
 function recur(...args: any[]): Recursive {
   return { type: recur, args };
@@ -32,4 +29,9 @@ export function repeat<T = unknown>(time: number) {
       });
     };
   };
+}
+
+export function makeImageURL({ imageId, variant = "public" }: IImageInfo) {
+  const IMAGE_DELIVERY_URL = "https://imagedelivery.net/FeERp6QvBDqT_Gqpxb0Nww";
+  return `${IMAGE_DELIVERY_URL}/${imageId}/${variant}`;
 }
