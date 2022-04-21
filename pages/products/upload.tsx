@@ -3,9 +3,11 @@ import InputWithLabel from "@components/labelInput";
 import TextAreaWithLabel from "@components/labelTextArea";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
+import { joinClasses } from "@libs/common";
 import { NextPage } from "next";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface UploadResponse {
@@ -26,15 +28,85 @@ const Upload: NextPage = () => {
     UploadResponse,
     IUploadFormData
   >("/api/products");
+  const [fileList, setFileList] = useState<File[]>([]);
+  const dropZoneRef = useRef<HTMLLabelElement>(null);
 
   function onValid(formData: IUploadFormData) {
     if (loading) return;
-    console.log(formData);
+
     fetchMutation(formData);
   }
 
   useEffect(() => {
-    console.log("게시 데이터 -> ", data);
+    const dropZoneElem = dropZoneRef.current;
+
+    const InitClassName =
+      "border-4 border-dashed py-20 flex justify-center rounded-lg hover:border-amber-400 hover:text-yellow-500";
+
+    function dragLeaveHandler() {
+      if (dropZoneElem) {
+        dropZoneElem.className = joinClasses(
+          InitClassName,
+          "border-gray-400 text-gray-400"
+        );
+      }
+    }
+
+    function dragOverHandler() {
+      if (dropZoneElem) {
+        dropZoneElem.className = joinClasses(
+          InitClassName,
+          "border-amber-400 text-amber-400"
+        );
+      }
+    }
+
+    function dropHandler(event: DragEvent) {
+      const dt = event.dataTransfer;
+
+      if (dt) {
+        const { files } = dt;
+
+        setFileList((previewList) => {
+          const arr = [];
+          for (const file of files) {
+            arr[arr.length] = file;
+          }
+          return [...previewList, ...arr];
+        });
+      }
+    }
+
+    if (dropZoneElem) {
+      ["dragstart", "dragenter", "dragover", "drop"].forEach((cmd) => {
+        dropZoneElem.addEventListener(cmd, (event) => {
+          event.preventDefault();
+        });
+      });
+
+      dropZoneElem.addEventListener("dragleave", dragLeaveHandler);
+
+      ["dragenter", "dragover"].forEach((cmd) => {
+        dropZoneElem.addEventListener(cmd, dragOverHandler);
+      });
+
+      dropZoneElem.addEventListener("drop", dropHandler);
+    }
+
+    return () => {
+      if (dropZoneElem) {
+        dropZoneElem.removeEventListener("dragleave", dragLeaveHandler);
+        ["dragenter", "dragover"].forEach((cmd) => {
+          dropZoneElem.removeEventListener(cmd, dragOverHandler);
+        });
+        dropZoneElem.removeEventListener("drop", dropHandler);
+      }
+    };
+  }, []);
+
+  console.log(fileList);
+
+  useEffect(() => {
     if (data && data.ok) {
       router.replace(`/products/${data.post.id}`);
     }
@@ -46,7 +118,10 @@ const Upload: NextPage = () => {
         className="py-10 flex flex-col gap-y-4"
         onSubmit={handleSubmit(onValid)}
       >
-        <label className="border-4 border-dashed border-gray-400 py-20 flex justify-center rounded-lg hover:border-amber-400 hover:text-yellow-500">
+        <label
+          ref={dropZoneRef}
+          className="border-4 border-dashed border-gray-400 text-gray-400 py-20 flex justify-center rounded-lg hover:border-amber-400 hover:text-yellow-500"
+        >
           <svg
             className="h-12 w-12"
             stroke="currentColor"
@@ -63,6 +138,22 @@ const Upload: NextPage = () => {
           </svg>
           <input type="file" className="hidden" />
         </label>
+        <section className="flex gap-x-2">
+          {fileList.length
+            ? fileList.map((file, index) => (
+                <div
+                  key={`${file.name}/${index}`}
+                  className="relative w-14 h-14 rounded-lg overflow-hidden"
+                >
+                  <Image
+                    src={URL.createObjectURL(file)}
+                    alt={`${index + 1} 번째 이미지`}
+                    layout="fill"
+                  />
+                </div>
+              ))
+            : null}
+        </section>
         <InputWithLabel
           id={"name"}
           type={"text"}
