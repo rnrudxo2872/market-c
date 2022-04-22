@@ -7,7 +7,13 @@ import { joinClasses } from "@libs/common";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 
 interface UploadResponse {
@@ -31,11 +37,31 @@ const Upload: NextPage = () => {
   const [fileList, setFileList] = useState<File[]>([]);
   const dropZoneRef = useRef<HTMLLabelElement>(null);
 
+  function addFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const { files } = event.currentTarget;
+
+    if (files?.length) {
+      addPreviewFile(files);
+    }
+  }
+
+  function addPreviewFile(files: FileList) {
+    setFileList((previewList) => {
+      const arr = [];
+      for (const file of files) {
+        arr[arr.length] = file;
+      }
+      return [...previewList, ...arr];
+    });
+  }
+
   function onValid(formData: IUploadFormData) {
     if (loading) return;
 
     fetchMutation(formData);
   }
+
+  function isValid() {}
 
   useEffect(() => {
     const dropZoneElem = dropZoneRef.current;
@@ -67,13 +93,7 @@ const Upload: NextPage = () => {
       if (dt) {
         const { files } = dt;
 
-        setFileList((previewList) => {
-          const arr = [];
-          for (const file of files) {
-            arr[arr.length] = file;
-          }
-          return [...previewList, ...arr];
-        });
+        addPreviewFile(files);
       }
     }
 
@@ -103,8 +123,6 @@ const Upload: NextPage = () => {
       }
     };
   }, []);
-
-  console.log(fileList);
 
   useEffect(() => {
     if (data && data.ok) {
@@ -136,7 +154,13 @@ const Upload: NextPage = () => {
               strokeLinejoin="round"
             />
           </svg>
-          <input type="file" className="hidden" />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={addFile}
+            multiple
+          />
         </label>
         <section className="flex gap-x-2">
           {fileList.length

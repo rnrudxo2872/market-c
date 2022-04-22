@@ -4,6 +4,9 @@ Using React 18 RC.
 
 #### todo
 
+- products
+  - drag and drop [x]
+  - delete preview image [ ]
 - loading component [ ]
 - 404 page [ ]
 
