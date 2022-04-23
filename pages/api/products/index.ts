@@ -50,7 +50,7 @@ async function handler(
 
   if (method === "POST") {
     const {
-      body: { name, description, price },
+      body: { name, description, price, images },
       session: { user },
     } = req;
 
@@ -59,7 +59,7 @@ async function handler(
         name,
         description,
         price: Number(price),
-        image: "xx",
+        image: (images as string[]).join(","),
         user: { connect: { id: user!.id } },
       },
     });

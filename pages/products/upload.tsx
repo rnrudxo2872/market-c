@@ -2,18 +2,14 @@ import BaseBtn from "@components/baseBtn";
 import InputWithLabel from "@components/labelInput";
 import TextAreaWithLabel from "@components/labelTextArea";
 import Layout from "@components/layout";
+import useCloud from "@libs/client/useCloud";
 import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
 import { joinClasses } from "@libs/common";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, {
-  ChangeEventHandler,
-  SyntheticEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface UploadResponse {
@@ -25,16 +21,19 @@ interface IUploadFormData {
   name: string;
   price: string;
   description: string;
+  formError: string;
+  images: string[];
 }
 
 const Upload: NextPage = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<IUploadFormData>();
+  const { register, handleSubmit, setValue } = useForm<IUploadFormData>();
   const { data, error, fetchMutation, loading } = useMutation<
     UploadResponse,
     IUploadFormData
   >("/api/products");
   const [fileList, setFileList] = useState<File[]>([]);
+  const { isLoading: isUploading, uploadCloud } = useCloud(fileList);
   const dropZoneRef = useRef<HTMLLabelElement>(null);
 
   function addFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -55,13 +54,24 @@ const Upload: NextPage = () => {
     });
   }
 
-  function onValid(formData: IUploadFormData) {
-    if (loading) return;
+  async function onValid(formData: IUploadFormData) {
+    if (loading || isUploading) return;
+    if (!isValid(formData)) return;
 
-    fetchMutation(formData);
+    const uploadURLs = await uploadCloud(formData.name);
+
+    if (uploadURLs) {
+      fetchMutation({ ...formData, images: uploadURLs });
+    }
   }
 
-  function isValid() {}
+  function isValid(formData: IUploadFormData): boolean {
+    if (!fileList?.length) {
+      setValue("formError", "최소 한 장의 제품 사진이 필요합니다.");
+      return false;
+    }
+    return true;
+  }
 
   useEffect(() => {
     const dropZoneElem = dropZoneRef.current;
@@ -211,7 +221,11 @@ const Upload: NextPage = () => {
           })}
         />
         <BaseBtn OnClick={() => {}}>
-          {loading ? "게시하는 중..." : "상품 올리기"}
+          {isUploading
+            ? "이미지 업로드 중..."
+            : loading
+            ? "게시하는 중..."
+            : "상품 올리기"}
         </BaseBtn>
       </form>
     </Layout>
