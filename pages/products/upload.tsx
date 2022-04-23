@@ -5,7 +5,7 @@ import Layout from "@components/layout";
 import useCloud from "@libs/client/useCloud";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
-import { joinClasses } from "@libs/common";
+import { joinClasses, timeTest } from "@libs/common";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";

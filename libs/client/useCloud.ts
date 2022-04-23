@@ -12,31 +12,29 @@ export default function useCloud(files: File[]): IUseCloud {
     if (!files.length) return;
     setIsLoading(true);
 
-    const tempFormData = new FormData();
-
-    let temp: string[] = [];
-
-    //promiseAll
-    for (let i = 0; i < files.length; ++i) {
+    async function temFunc(file: File, id?: string) {
+      const tempFormData = new FormData();
       const { uploadURL } = await (await fetch("/api/files")).json();
 
-      tempFormData.append("file", files[i], id ? `${id}/${i}` : undefined);
+      tempFormData.append("file", file, id);
 
-      const {
-        result: { id: urlId },
-      } = await (
+      return (
         await fetch(uploadURL, {
           method: "POST",
           body: tempFormData,
         })
       ).json();
-
-      temp[temp.length] = urlId;
-      tempFormData.delete("file");
     }
 
+    let temp: Promise<any>[] = [];
+    for (let i = 0; i < files.length; ++i) {
+      temp[temp.length] = temFunc(files[i], id ? `${id}/${i}` : undefined);
+    }
+
+    const result = await Promise.all(temp);
     setIsLoading(false);
-    return temp;
+
+    return result.map(({ result: { id } }) => id);
   }
 
   return { isLoading, uploadCloud };

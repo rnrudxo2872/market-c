@@ -42,3 +42,23 @@ export function getLocalMonetUnit(num: number, local: string) {
 
   return null;
 }
+
+export async function timeTest({
+  testName,
+  n,
+  fn,
+}: {
+  testName: string;
+  n: number;
+  fn: () => any;
+}) {
+  console.time(testName);
+  for (let i = 0; i < n; ++i) {
+    await exec(fn());
+  }
+  console.timeEnd(testName);
+}
+
+async function exec(a: any) {
+  return a instanceof Promise ? await a : a;
+}
