@@ -8,6 +8,10 @@ import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import useMutation from "@libs/client/useMutation";
 import HeartBtn from "@components/heartBtn";
+import useUser from "@libs/client/useUser";
+import Image from "next/image";
+import { makeImageURL } from "@libs/client/utils";
+import ProfileImage from "@components/profile/profileImage";
 
 interface IGetProduct {
   ok: boolean;
@@ -26,6 +30,7 @@ interface IGetProduct {
 }
 
 const Item: NextPage = () => {
+  const { user } = useUser();
   const {
     query: { id: pageId },
   } = useRouter();
@@ -60,7 +65,8 @@ const Item: NextPage = () => {
       false
     );
   }
-
+  console.log(user);
+  console.log(data);
   return (
     <Layout hasBackBtn title={"제품상세"}>
       <div className="flex flex-col px-2 mt-8">
@@ -69,7 +75,7 @@ const Item: NextPage = () => {
         </section>
         <section>
           <div className="flex gap-2 border-b border-stone-400 py-3">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
+            <ProfileImage avatarId={user?.avatar} name={user?.name} />
             <div className="flex flex-col leading-none">
               <span>{data?.product.userName}</span>
               <Link href={`/user/${1}`}>

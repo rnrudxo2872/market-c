@@ -104,27 +104,31 @@ const Edit: NextPage = () => {
       };
     }
 
-    const {
-      name: prevName,
-      email: prevEmail,
-      phone: prevPhone,
-      avatar: prevAvatar,
-    } = user;
-    if (
-      name === (prevName ?? "") &&
-      email === (prevEmail ?? "") &&
-      phone === (prevPhone ?? "") &&
-      previewAvatar === prevAvatar
-    ) {
-      return {
-        valid: false,
-        status: {
-          type: "disabled",
-          message: "이전 정보에서 변경사항이 없습니다.",
-        },
-      };
+    if (user) {
+      const {
+        name: prevName,
+        email: prevEmail,
+        phone: prevPhone,
+        avatar: prevAvatar,
+      } = user!;
+      if (
+        name === (prevName ?? "") &&
+        email === (prevEmail ?? "") &&
+        phone === (prevPhone ?? "") &&
+        previewAvatar === prevAvatar
+      ) {
+        return {
+          valid: false,
+          status: {
+            type: "disabled",
+            message: "이전 정보에서 변경사항이 없습니다.",
+          },
+        };
+      }
+      return { valid: true };
     }
-    return { valid: true };
+
+    return { valid: false };
   }
 
   useEffect(() => {
