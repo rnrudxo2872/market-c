@@ -35,12 +35,14 @@ async function handler(
           id,
           name,
           price,
+          image,
           user: { name: userName },
           _count: { like: likes },
         }) => ({
           id,
           name,
           price,
+          image,
           userName,
           likes,
         })

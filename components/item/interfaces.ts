@@ -4,4 +4,5 @@ export interface IHomeItem {
   seller: string;
   price: string;
   hearts: number;
+  image: string;
 }

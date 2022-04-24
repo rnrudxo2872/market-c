@@ -3,7 +3,6 @@ import HomeItem from "@components/item";
 import LaunchButton from "@components/launcherButton";
 import Layout from "@components/layout";
 import BaseTitle from "@components/title";
-import useSWR from "swr";
 import InfiniteScroll from "@components/infiniteScroll";
 import { useState } from "react";
 
@@ -11,16 +10,17 @@ interface IProducts {
   id: number;
   name: string;
   price: string;
+  image: string;
   userName: string;
   likes: number;
 }
 
 const Home: NextPage = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
-
+  console.log(products);
   return (
     <Layout hasTabBar={true} title={<BaseTitle title="홈" />}>
-      {products.map(({ id, name, userName, price, likes }) => (
+      {products.map(({ id, name, userName, price, likes, image }) => (
         <HomeItem
           key={id}
           id={id + ""}
@@ -28,6 +28,7 @@ const Home: NextPage = () => {
           price={price}
           seller={userName}
           title={name}
+          image={image}
         />
       ))}
       <InfiniteScroll setState={setProducts} url="/api/products" />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLocalMonetUnit } from "@libs/common";
 import { IHomeItem } from "./interfaces";
+import ImageItem from "@components/imageItem";
 
 export default function HomeItem({
   id,
@@ -8,13 +9,25 @@ export default function HomeItem({
   price,
   seller,
   title,
+  image,
 }: IHomeItem) {
   return (
     <div className="flex border-b items-center border-stone-300 relative">
       <section className="py-3 px-2">
         <Link href={`/products/${id}`}>
           <a>
-            <div className="w-20 h-20 rounded-md bg-slate-400"></div>
+            {image.length ? (
+              <ImageItem
+                imageId={image.split(",")[0]}
+                alt={`${title}의 상품 이미지`}
+                width="20"
+                height="20"
+                variant="small"
+                quality={100}
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-md bg-slate-400"></div>
+            )}
           </a>
         </Link>
       </section>
