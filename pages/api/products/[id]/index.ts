@@ -59,6 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       description: product.description,
       price: product.price,
       userName: product.user.name,
+      images: product.image.split(","),
     },
     relatedProducts: relatedProducts.map((product) => ({
       id: product.id,

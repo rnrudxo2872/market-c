@@ -9,9 +9,8 @@ import { useRouter } from "next/router";
 import useMutation from "@libs/client/useMutation";
 import HeartBtn from "@components/heartBtn";
 import useUser from "@libs/client/useUser";
-import Image from "next/image";
-import { makeImageURL } from "@libs/client/utils";
 import ProfileImage from "@components/profile/profileImage";
+import SlideImages from "@components/slideImages";
 
 interface IGetProduct {
   ok: boolean;
@@ -20,6 +19,7 @@ interface IGetProduct {
     description: string;
     price: number;
     userName: string;
+    images: string[];
   };
   relatedProducts: {
     id: number;
@@ -71,7 +71,13 @@ const Item: NextPage = () => {
     <Layout hasBackBtn title={"제품상세"}>
       <div className="flex flex-col px-2 mt-8">
         <section>
-          <div className="h-96 bg-gray-400"></div>
+          <div className="w-full h-96">
+            {data ? (
+              <SlideImages images={data.product.images} />
+            ) : (
+              <div className="w-full h-full bg-gray-400" />
+            )}
+          </div>
         </section>
         <section>
           <div className="flex gap-2 border-b border-stone-400 py-3">
